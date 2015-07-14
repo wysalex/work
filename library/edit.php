@@ -139,17 +139,24 @@ function checkPublishdate(myPublishdate) {
 			<?php if ($txts) {?>
 			<?php $aStr = explode(",", $txts);?>
 			<form action="" method="POST" name="editform" onsubmit="return checkForm();">
-				ISBN:<?php echo $aStr[0]?><input type="hidden" name="isbn" id="isbn" value="<?php echo $aStr[0];?>"/></br>
-				出版社:
-				<input type="text" name="publisher" id="publisher" value="<?php echo $aStr[1]?>" /></br>
-				書名:
-				<input type="text" name="book" id="book" value="<?php echo $aStr[2]?>" /></br>
-				作者:
-				<input type="text" name="author" id="author" value="<?php echo $aStr[3]?>" /></br>
-				售價:
-				<input type="text" name="price" id="price" value="<?php echo $aStr[4]?>" /></br>
-				發行日:
-				<input type="text" name="publishdate" id="publishdate" value="<?php echo $aStr[5]?>" /></br>
+			<table>
+				<td>
+					ISBN:</br>
+					出版社:</br>
+					書名:</br>
+					作者:</br>
+					售價:</br>
+					發行日:</br>
+				</td>
+				<td>
+					<?php echo $aStr[0]?><input type="hidden" name="isbn" id="isbn" value="<?php echo $aStr[0];?>"/></br>
+					<input type="text" name="publisher" id="publisher" value="<?php echo $aStr[1]?>" /></br>
+					<input type="text" name="book" id="book" value="<?php echo $aStr[2]?>" /></br>
+					<input type="text" name="author" id="author" value="<?php echo $aStr[3]?>" /></br>
+					<input type="text" name="price" id="price" value="<?php echo $aStr[4]?>" /></br>
+					<input type="text" name="publishdate" id="publishdate" value="<?php echo $aStr[5]?>" /></br>
+				</td>
+			</table>
 				<input type="hidden" name="action" id="action" value="update" />
 				<input type="submit" name="submit" value="update" />
 				<input type="button" name="button" value="cancel" onclick="javascript:location.href='index.php'" />

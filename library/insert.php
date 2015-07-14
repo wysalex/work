@@ -124,21 +124,27 @@ function checkPublishdate(myPublishdate) {
 	<tr>
 		<td>
 			<form action="" method="POST" name="insertform" onsubmit="return checkForm();">
-				ISBN:
-				<input type="text" name="isbn" id="isbn" /></br>
-				出版社:
-				<input type="text" name="publisher" id="publisher" /></br>
-				書名:
-				<input type="text" name="book" id="book" /></br>
-				作者:
-				<input type="text" name="author" id="author" /></br>
-				售價:
-				<input type="text" name="price" id="price" /></br>
-				發行日:
-				<input type="date" name="publishdate" id="publishdate" /></br>
-				<input type="hidden" name="action" id="action" value="add" />
-				<input type="submit" name="submit" value="submit" />
-				<input type="button" name="button" value="cancel" onclick="javascript:location.href='index.php'" />
+			<table>
+				<td>
+					ISBN:</br>
+					出版社:</br>
+					書名:</br>
+					作者:</br>
+					售價:</br>
+					發行日:</br>
+				</td>
+				<td>
+					<input type="text" name="isbn" id="isbn" /></br>
+					<input type="text" name="publisher" id="publisher" /></br>
+					<input type="text" name="book" id="book" /></br>
+					<input type="text" name="author" id="author" /></br>
+					<input type="text" name="price" id="price" /></br>
+					<input type="date" name="publishdate" id="publishdate" />
+				</td>
+			</table>
+			<input type="hidden" name="action" id="action" value="add" />
+			<input type="submit" name="submit" value="submit" />
+			<input type="button" name="button" value="cancel" onclick="javascript:location.href='index.php'" />
 			</form>
 		</td>
 	</tr>
