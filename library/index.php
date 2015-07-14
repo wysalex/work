@@ -104,12 +104,23 @@ if (isset($_POST["action"]) && ($_POST["action"] == "sort")) {
 		echo "</script>";
 		exit;
 	}
-	if ($_POST["book"]) {
-		$aBooks = array_chunk($_POST["book"], 6);
-		usort($aBooks, $sortBy);
+	$txts = file_get_contents("library.txt");
+	$txts = str_replace( '\r', "", $txts);
+	$txts = preg_split('/\n/', $txts, -1, PREG_SPLIT_NO_EMPTY);
+	$i = 0;
+	$aTxts = array();
+	foreach ($txts as $txt) {
+		$aStr = explode(",", $txt);
+		$aTxts[$i] = $aStr;
+		$i++;
+	}
+
+	if ($aTxts) {
+		usort($aTxts, $sortBy);
 		$fp = fopen("library.txt", "w+");
-		foreach ($aBooks as $book) {
-			$bookStr = $book[0] . "," . $book[1] . "," . $book[2] . "," . $book[3] . "," . $book[4] . "," . $book[5] . "\r\n";
+		foreach ($aTxts as $aBook) {
+			$aCleanBook = trimArray($aBook);
+			$bookStr = $aCleanBook[0] . "," . $aCleanBook[1] . "," . $aCleanBook[2] . "," . $aCleanBook[3] . "," . $aCleanBook[4] . "," . $aCleanBook[5] . "\r\n";
 			file_put_contents("library.txt", stripslashes($bookStr), FILE_APPEND);
 		}
 		fclose($fp);
@@ -127,7 +138,6 @@ if (isset($_POST["action"]) && ($_POST["action"] == "sort")) {
 
 } else {
 	$fp = fopen("library.txt", "a+");
-
 	$txts = file_get_contents("library.txt");
 	$txts = str_replace( "\r", "", $txts);
 	$txts = preg_split('/\n/', $txts, -1, PREG_SPLIT_NO_EMPTY);
@@ -213,18 +223,6 @@ function dateDESC($a, $b){
 	<tr>
 		<td align="right">
 			<form action="" method="POST" name="sortform">
-			<?php if ($txts) {?>
-			<?php foreach ($txts as $txt) {?>
-			<?php $astring = explode(",", $txt);?>
-			<?php $abook = array("isbn" => $astring[0], "publisher" => $astring[1], "book" => $astring[2], "author" => $astring[3], "price" => $astring[4], "publishdate" => $astring[5]);?>
-				<input type="hidden" name="book[]" value="<?php echo $abook["isbn"]?>">
-				<input type="hidden" name="book[]" value="<?php echo $abook["publisher"]?>">
-				<input type="hidden" name="book[]" value="<?php echo $abook["book"]?>">
-				<input type="hidden" name="book[]" value="<?php echo $abook["author"]?>">
-				<input type="hidden" name="book[]" value="<?php echo $abook["price"]?>">
-				<input type="hidden" name="book[]" value="<?php echo $abook["publishdate"]?>">
-			<?php }?>
-			<?php }?>
 				排序
 				<select name="condition">
 					<option <selected="selected" value="">請選擇</option>
