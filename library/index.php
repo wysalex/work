@@ -78,7 +78,7 @@ if (isset($_POST["action"]) && ($_POST["action"] == "import")) {
 		$cleanStr = trimArray($str);
 
 		$book = $cleanStr[0] . "," . $cleanStr[1] . "," . $cleanStr[2] . "," . $cleanStr[3] . "," . $cleanStr[4] . "," . $cleanStr[5] . "\r\n";
-		file_put_contents("library.txt", $book, FILE_APPEND);
+		file_put_contents("library.txt", stripslashes($book), FILE_APPEND);
 	}
 	header("Location: index.php");
 }
@@ -110,7 +110,7 @@ if (isset($_POST["action"]) && ($_POST["action"] == "sort")) {
 		$fp = fopen("library.txt", "w+");
 		foreach ($aBooks as $book) {
 			$bookStr = $book[0] . "," . $book[1] . "," . $book[2] . "," . $book[3] . "," . $book[4] . "," . $book[5] . "\r\n";
-			file_put_contents("library.txt", $bookStr, FILE_APPEND);
+			file_put_contents("library.txt", stripslashes($bookStr), FILE_APPEND);
 		}
 		fclose($fp);
 
