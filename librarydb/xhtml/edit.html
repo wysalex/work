@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Edit Book</title>
+	<h1 align="center">Edit Book</h1>
+<script language="javascript" type="text/javascript" src="js/check.js"></script> 
+<script language="javascript" type="text/javascript">  
+	checkForm();
+</script> 
+</head>
+<body>
+<table align="center" width="500" border="1">
+	<tr>
+		<td>
+			<form action="" method="POST" name="myform">
+			<table>
+				<td>
+					ISBN:</br>
+					出版社:</br>
+					書名:</br>
+					作者:</br>
+					售價:</br>
+					發行日:</br>
+				</td>
+				<td>
+					<input type="text" name="isbn" id="isbn" value="<?php echo $row["isbn"]?>" /></br>
+					<input type="text" name="publisher" id="publisher" value="<?php echo $row["publisher"]?>" /></br>
+					<input type="text" name="book" id="book" value="<?php echo $row["book"]?>" /></br>
+					<input type="text" name="author" id="author" value="<?php echo $row["author"]?>" /></br>
+					<input type="text" name="price" id="price" value="<?php echo $row["price"]?>" /></br>
+					<input type="date" name="publishdate" id="publishdate" value="<?php echo $row["publishdate"]?>" />
+				</td>
+			</table>
+				<input type="hidden" name="id" id="id" value="<?php echo $row["id"];?>"/>
+				<input type="hidden" name="action" id="action" value="update" />
+				<input type="submit" name="submit" value="update" onclick="return checkForm();" />
+				<input type="button" name="button" value="cancel" onclick="javascript:location.href='index.php'" />
+			</form>
+		</td>
+	</tr>
+</table>
+</body>
+</html>

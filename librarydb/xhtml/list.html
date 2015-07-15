@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Lirbry</title>
+	<h1 align="center">List</h1>
+</head>
+<body>
+<table width="1000" align="center">
+	<tr>
+		<td align="right">
+			<form action="" method="POST" name="sortform">
+				排序
+				<select name="condition">
+					<option <selected="selected" value="">請選擇</option>
+					<option <?php if ($_POST["condition"] == "publisher") echo 'selected="selected"';?> value="publisher">出版社</option>
+					<option <?php if ($_POST["condition"] == "book") echo 'selected="selected"';?> value="book">書名</option>
+					<option <?php if ($_POST["condition"] == "author") echo 'selected="selected"';?> value="author">作者</option>
+					<option <?php if ($_POST["condition"] == "price") echo 'selected="selected"';?> value="price">售價</option>
+					<option <?php if ($_POST["condition"] == "publishdate") echo 'selected="selected"';?> value="publishdate">發行日</option>
+				</select>
+				方向
+				<select name="sort">
+					<option <selected="selected" value="">請選擇</option>
+					<option <?php if ($_POST["sort"] == "ASC") echo 'selected="selected"'?> value="ASC">ASC</option>
+					<option <?php if ($_POST["sort"] == "DESC") echo 'selected="selected"'?> value="DESC">DESC</option>
+				</select>
+				<input type="hidden" name="action" id="action" value="sort"/>
+				<input type="submit" name="submit" value="sort">
+			</form>
+		</td>
+	</tr>
+</table>
+<table width="1000" align="center">
+	<tr>
+		<td>
+			<form action="" method="POST" name="deleteform" onclick="return confirm('確定匯出?')">
+				<input type="hidden" name="query" id="query" value="<?php echo $query_Library;?>"/>
+				<input type="hidden" name="action" id="action" value="export"/>
+				<input type="submit" name="submit" value="export"/>
+			</form>
+		</td>
+	</tr>
+</table>
+<table width="1000" border="1" align="center">
+	<tr align="center">
+		<td>ISBN</td>
+		<td>出版社</td>
+		<td>書名</td>
+		<td>作者</td>
+		<td>售價</td>
+		<td>發行日</td>
+		<td>編輯/刪除</td>
+	</tr>
+	<?php while ($row = $db->fetch_array()) {?>
+	<tr align="center">
+		<td><?php echo $row["isbn"];?></td>
+		<td><?php echo $row["publisher"];?></td>
+		<td><?php echo $row["book"];?></td>
+		<td><?php echo $row["author"];?></td>
+		<td><?php echo $row["price"];?></td>
+		<td><?php echo $row["publishdate"];?></td>
+		<td>
+			<form action="" method="POST" name="deleteForm">
+				<input type ="button" onclick="javascript:location.href='edit.php?id=<?php echo $row["id"];?>'" value="Edit" />
+				<input type="hidden" name="id" id="id" value="<?php echo $row["id"];?>" />
+				<input type="hidden" name="action" id="action" value="delete" />
+				<input type ="submit" name="submit" value="Delete" onclick="return confirm('確定刪除?')" />
+			</form>
+		</td>
+	</tr>
+	<?php }?>
+</table>
+<table align="center" width="1000">
+	<tr>
+		<td align="center">
+			<form>
+				<input type ="button" value="Add new book" onclick="javascript:location.href='insert.php'" />
+			</form>
+		</td>
+	</tr>
+</table>
+</body>
+</html>
