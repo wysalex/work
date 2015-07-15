@@ -56,6 +56,7 @@ if ($_GET["id"]) {
 		<td>發行日</td>
 	</tr>
 	<?php if ($txt) {?>
+	<?php $txt = trim($txt);?>
 	<?php $aStr = explode(",", $txt);?>
 	<tr align="center">
 		<td><?php echo $aStr[0];?></td>

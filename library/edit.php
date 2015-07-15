@@ -137,6 +137,7 @@ function checkPublishdate(myPublishdate) {
 	<tr>
 		<td>
 			<?php if ($txts) {?>
+			<?php $txt = trim($txt);?>
 			<?php $aStr = explode(",", $txts);?>
 			<form action="" method="POST" name="editform" onsubmit="return checkForm();">
 			<table>
