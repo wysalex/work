@@ -6,15 +6,19 @@ $db = new DB();
 
 if (isset($_POST["action"]) && ($_POST["action"] == "delete")) {
 	$delete_Book = "DELETE FROM `library` WHERE `id` = " . $_POST["id"];
+	$db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
 	$db->bookQuery($delete_Book);
-	$db->closeDB($link);
+	$db->closeDB();
 	header("location: index.php");
 }
 if (isset($_POST["action"]) && ($_POST["action"] == "export")) {
+	$filename="book" . date("Y/m/d H:i:s") . ".csv";
 	header("Content-type: text/x-csv");
-	header("Content-Disposition: attachment; filename=book.csv");
+	header("Content-Disposition: attachment; filename=$filename");
+	$db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
 	$db->bookQuery($_POST["query"]);
-	while($row = $db->fetch_array()){
+	echo chr(239).chr(187). chr(191);//BOM
+	while($row = $db->fetch_assoc()){
 		echo $row["isbn"] . ",";
 		echo $row["publisher"] . ",";
 		echo $row["book"] . ",";
@@ -22,7 +26,7 @@ if (isset($_POST["action"]) && ($_POST["action"] == "export")) {
 		echo $row["price"] . ",";
 		echo $row["publishdate"] . "\r\n";
 	}
-	$db->closeDB($link);
+	$db->closeDB();
 	exit;
 }
 if (isset($_POST["action"]) && ($_POST["action"] == "sort")) {
@@ -34,19 +38,15 @@ if (isset($_POST["action"]) && ($_POST["action"] == "sort")) {
 		exit;
 	}
 	$query_Library = "SELECT * FROM `library` ORDER BY `" . $_POST["condition"] . "` " . $_POST["sort"];
+	$db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
 	$db->bookQuery($query_Library);
-	$db->closeDB($link);
+	$db->closeDB();
 } else {
 	$query_Library = "SELECT * FROM `library` ORDER BY `id`";
 	$db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
-	//$db->checkTable();
+	$db->checkTable($query_Library);
 	$db->bookQuery($query_Library);
 	$db->closeDB();
-}
-function trimArray($input) {
-	if (!is_array($input))
-		return trim($input);
-	return array_map('trimArray', $input);
 }
 require_once('xhtml/list.html');
 ?>

@@ -12,6 +12,7 @@
 				排序
 				<select name="condition">
 					<option <selected="selected" value="">請選擇</option>
+					<option <?php if ($_POST["condition"] == "isbn") echo 'selected="selected"';?> value="isbn">ISBN</option>
 					<option <?php if ($_POST["condition"] == "publisher") echo 'selected="selected"';?> value="publisher">出版社</option>
 					<option <?php if ($_POST["condition"] == "book") echo 'selected="selected"';?> value="book">書名</option>
 					<option <?php if ($_POST["condition"] == "author") echo 'selected="selected"';?> value="author">作者</option>
@@ -51,7 +52,7 @@
 		<td>發行日</td>
 		<td>編輯/刪除</td>
 	</tr>
-	<?php while ($row = $db->fetch_array()) {?>
+	<?php while ($row = $db->fetch_assoc()) {?>
 	<tr align="center">
 		<td><?php echo $row["isbn"];?></td>
 		<td><?php echo $row["publisher"];?></td>

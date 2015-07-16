@@ -10,17 +10,17 @@ function checkForm() {
 			return false;
 		}
 	}
-	if (document.myform.publisher.value == "") {
+	if (document.myform.publisher.value.trim() == "") {
 		alert("出版社不可為空!");
 		document.myform.publisher.focus();
 		return false;
 	}
-	if (document.myform.book.value == "") {
+	if (document.myform.book.value.trim() == "") {
 		alert("書名不可為空!");
 		document.myform.book.focus();
 		return false;
 	}
-	if (document.myform.author.value == "") {
+	if (document.myform.author.value.trim() == "") {
 		alert("作者不可為空!");
 		document.myform.author.focus();
 		return false;
@@ -72,4 +72,7 @@ function checkPublishdate(myPublishdate) {
 	}
 	alert("請確認發行日期");
 	return false;
+}
+function callTrim(string){
+	return string.replace(/(^[\s]*)|([\s]*$)/g, "");
 }
