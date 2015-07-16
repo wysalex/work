@@ -15,18 +15,18 @@ class DB
 		$this->_dbConnect = $dbconnect;
 		return true;
 	}
-	function checkTable() {
+	function checkTable($sql) {
 		if (!$queryResult = mysql_query($sql)) {
-		$create_Table = "CREATE TABLE library (";
-		$create_Table .= "id int(100) auto_increment PRIMARY KEY, ";
-		$create_Table .= "isbn char(17) NOT NULL, ";
-		$create_Table .= "publisher varchar(255) NOT NULL, ";
-		$create_Table .= "book varchar(255) NOT NULL, ";
-		$create_Table .= "author varchar(255) NOT NULL, ";
-		$create_Table .= "price int(5) NOT NULL, ";
-		$create_Table .= "publishdate date NOT NULL) ";
-		$create_Table .= "CHARACTER SET utf8 COLLATE utf8_general_ci";
-		$query = mysql_query($create_Table);
+			$create_Table = "CREATE TABLE library (";
+			$create_Table .= "id int(100) auto_increment PRIMARY KEY, ";
+			$create_Table .= "isbn char(17) NOT NULL, ";
+			$create_Table .= "publisher varchar(255) NOT NULL, ";
+			$create_Table .= "book varchar(255) NOT NULL, ";
+			$create_Table .= "author varchar(255) NOT NULL, ";
+			$create_Table .= "price int(5) NOT NULL, ";
+			$create_Table .= "publishdate date NOT NULL) ";
+			$create_Table .= "CHARACTER SET utf8 COLLATE utf8_general_ci";
+			$query = mysql_query($create_Table);
 		}
 		$this->_queryResult = $queryResult;
 		return $queryResult;
@@ -37,13 +37,10 @@ class DB
 		return $queryResult;
 	}
 	function fetch_assoc() {
-		if(!$this->_queryResult) {
+		if (!$this->_queryResult) {
 			return false;
 		}
 		return mysql_fetch_assoc($this->_queryResult);
-	}
-	function fetch_row() {
-		return mysql_fetch_row($this->_queryResult);
 	}
 	function closeDB() {
 		mysql_close();

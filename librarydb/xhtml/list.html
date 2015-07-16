@@ -7,6 +7,13 @@
 <body>
 <table width="1000" align="center">
 	<tr>
+		<td>
+			<form action="" method="POST" name="deleteform" onclick="return confirm('確定匯出?')">
+			<input type="hidden" name="query" id="query" value="<?php echo $query;?>"/><!--查詢的方法-->
+			<input type="hidden" name="action" id="action" value="export"/>
+			<input type="submit" name="submit" value="export"/>
+			</form>
+		</td>
 		<td align="right">
 			<form action="" method="POST" name="sortform">
 				排序
@@ -34,11 +41,7 @@
 <table width="1000" align="center">
 	<tr>
 		<td>
-			<form action="" method="POST" name="deleteform" onclick="return confirm('確定匯出?')">
-				<input type="hidden" name="query" id="query" value="<?php echo $query_Library;?>"/>
-				<input type="hidden" name="action" id="action" value="export"/>
-				<input type="submit" name="submit" value="export"/>
-			</form>
+
 		</td>
 	</tr>
 </table>

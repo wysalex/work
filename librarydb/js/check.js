@@ -73,6 +73,3 @@ function checkPublishdate(myPublishdate) {
 	alert("請確認發行日期");
 	return false;
 }
-function callTrim(string){
-	return string.replace(/(^[\s]*)|([\s]*$)/g, "");
-}

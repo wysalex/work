@@ -8,13 +8,8 @@
 	checkForm();
 </script>
 <link href="js/calendar.css" type="text/css" rel="stylesheet">
-<script type="text/javascript">
-	window.google_analytics_uacct = "UA-101361-3";
-</script>
 <script type="text/javascript" src="js/calendar.js">
-	function init() {
-		calendar.set("publishdate");
-	}
+	calendar.set("publishdate");
 </script>
 </head>
 <body>
@@ -46,7 +41,7 @@
 				<tr>
 					<td>發行日:</td>
 					<td>
-						<input type="date" name="publishdate" id="publishdate" onclick="calendar.showCalendar();" />
+						<input type="text" name="publishdate" id="publishdate" onclick="calendar.showCalendar();" />
 						<script type="text/javascript">
 							calendar.set("publishdate");
 						</script>
