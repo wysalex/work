@@ -9,16 +9,18 @@
 	<tr>
 		<td>
 			<form action="" method="POST" name="deleteform" onclick="return confirm('確定匯出?')">
-			<input type="hidden" name="query" id="query" value="<?php echo $query;?>"/><!--查詢的方法-->
-			<input type="hidden" name="action" id="action" value="export"/>
-			<input type="submit" name="submit" value="export"/>
+				<!--查詢的方法-->
+				<input type="hidden" name="queryCondition" id="queryCondition" value="<?php echo $queryCondition;?>"/>
+				<input type="hidden" name="querySort" id="querySort" value="<?php echo $querySort;?>"/>
+				<input type="hidden" name="action" id="action" value="export"/>
+				<input type="submit" name="submit" value="export"/>
 			</form>
 		</td>
 		<td align="right">
 			<form action="" method="POST" name="sortform">
 				排序
 				<select name="condition">
-					<option <selected="selected" value="">請選擇</option>
+					<option value="">請選擇</option>
 					<option <?php if ($_POST["condition"] == "isbn") echo 'selected="selected"';?> value="isbn">ISBN</option>
 					<option <?php if ($_POST["condition"] == "publisher") echo 'selected="selected"';?> value="publisher">出版社</option>
 					<option <?php if ($_POST["condition"] == "book") echo 'selected="selected"';?> value="book">書名</option>
@@ -28,20 +30,13 @@
 				</select>
 				方向
 				<select name="sort">
-					<option <selected="selected" value="">請選擇</option>
+					<option value="">請選擇</option>
 					<option <?php if ($_POST["sort"] == "ASC") echo 'selected="selected"'?> value="ASC">ASC</option>
 					<option <?php if ($_POST["sort"] == "DESC") echo 'selected="selected"'?> value="DESC">DESC</option>
 				</select>
 				<input type="hidden" name="action" id="action" value="sort"/>
 				<input type="submit" name="submit" value="sort">
 			</form>
-		</td>
-	</tr>
-</table>
-<table width="1000" align="center">
-	<tr>
-		<td>
-
 		</td>
 	</tr>
 </table>

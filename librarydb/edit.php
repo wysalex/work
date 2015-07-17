@@ -1,8 +1,7 @@
 <?php
-require_once('class/db_config.php');
 require_once('class/db_class.php');
 
-$db = new DB();
+$db = new DB('test');
 
 if (isset($_POST["action"]) && ($_POST["action"] == "update")) {
 	$update_Book = "UPDATE `library` SET ";
@@ -13,15 +12,14 @@ if (isset($_POST["action"]) && ($_POST["action"] == "update")) {
 	$update_Book .= " `publishdate` = '" . trim($_POST["publishdate"]) . "'";
 	$update_Book .= "WHERE `id` = " . trim($_POST["id"]);
 
-	$db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
 	$db->bookQuery($update_Book);
 	$db->closeDB();
 	header("Location: index.php");
+	exit;
 }
 
 if ($_GET["id"]) {
 	$query_Book = "SELECT * FROM `library` WHERE `id` = " . $_GET["id"];
-	$db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
 	$db->bookQuery($query_Book);
 	$row = $db->fetch_assoc();
 	$db->closeDB();
@@ -30,6 +28,7 @@ if ($_GET["id"]) {
 	echo "alert('no data!');";
 	echo "document.location.href='index.php';";
 	echo "</script>";
+	exit;
 }
 require_once('xhtml/edit.html');
 ?>
