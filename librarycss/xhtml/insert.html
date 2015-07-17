@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>New Book</title>
+	<h1 align="center">New Book</h1>
+<script language="javascript" type="text/javascript" src="js/check.js"></script>
+<script language="javascript" type="text/javascript">
+function checkForm() {
+	if (document.myform.isbn.value == "") {
+		alert("ISBN不可為空!");
+		document.myform.isbn.focus();
+		return false;
+	}
+	if (document.myform.isbn.value != "") {
+		if (!checkIsbn(document.myform.isbn)) {
+			document.myform.isbn.focus();
+			return false;
+		}
+	}
+	if (document.myform.publisher.value.trim() == "") {
+		alert("出版社不可為空!");
+		document.myform.publisher.focus();
+		return false;
+	}
+	if (document.myform.book.value.trim() == "") {
+		alert("書名不可為空!");
+		document.myform.book.focus();
+		return false;
+	}
+	if (document.myform.author.value.trim() == "") {
+		alert("作者不可為空!");
+		document.myform.author.focus();
+		return false;
+	}
+	if (document.myform.price.value == "") {
+		alert("售價不可為空!");
+		document.myform.price.focus();
+		return false;
+	}
+	if (document.myform.price.value != "") {
+		if (!checkPrice(document.myform.price)) {
+			document.myform.price.focus();
+			return false;
+		}
+	}
+	if (document.myform.publishdate.value == "") {
+		alert("發行日不可為空!");
+		document.myform.publishdate.focus();
+		return false;
+	}
+	if (document.myform.publishdate.value != "") {
+		if (!checkPublishdate(document.myform.publishdate)) {
+			document.myform.publishdate.focus();
+			return false;
+		}
+	}
+	return confirm ("確認送出?");
+}
+</script>
+<link href="css/calendar.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="js/calendar.js">
+	calendar.set("publishdate");
+</script>
+</head>
+<body>
+<table align="center" width="500" border="1">
+	<tr>
+		<td>
+			<form action="" method="POST" name="myform">
+				<table>
+					<tr>
+						<td>ISBN:</td>
+						<td><input type="text" name="isbn" id="isbn" /></td>
+					</tr>
+					<tr>
+						<td>出版社:</td>
+						<td><input type="text" name="publisher" id="publisher" /></td>
+					</tr>
+					<tr>
+						<td>書名:</td>
+						<td><input type="text" name="book" id="book" /></td>
+					</tr>
+					<tr>
+						<td>作者:</td>
+						<td><input type="text" name="author" id="author" /></td>
+					</tr>
+					<tr>
+						<td>售價:</td>
+						<td><input type="text" name="price" id="price" /></td>
+					</tr>
+					<tr>
+						<td>發行日:</td>
+						<td>
+							<input type="text" name="publishdate" id="publishdate" onclick="calendar.showCalendar();" />
+							<script type="text/javascript">
+								calendar.set("publishdate");
+							</script>
+						</td>
+					</tr>
+				</table>
+				<input type="hidden" name="action" id="action" value="add" />
+				<input type="submit" name="submit" value="submit" onclick="return checkForm();" />
+				<input type="button" name="button" value="cancel" onclick="javascript:location.href='index.php'" />
+			</form>
+		</td>
+	</tr>
+</table>
+</body>
+</html>

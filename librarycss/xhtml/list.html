@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Lirbry</title>
+	<h1 align="center">List</h1>
+<style type="text/css">
+<!-- 
+.button1{font-size:12px;cursor:hand;width: 58px;height: 21px;background-color: #ffffff;background-image: url(images/baby/denglu_button.jpg);background-repeat: repeat;background-attachment: scroll;background-position: center;border: 0 solid #000000;text-align: center;padding-top: 3px;} 
+--> 
+</style>
+<style type="text/css">
+<!--   
+   .button1{font-size:12px;cursor:hand;width:   58px;height:   21px;background-color:   #ffffff;background-image:   url(images/baby/denglu_button.jpg);background-repeat:   repeat;background-attachment:   scroll;background-position:   center;border:   0   solid   #000000;text-align:   center;padding-top:   3px;}   
+-->   
+</style>
+border:2px solid #000 #F1F1F1 13px
+<style type="text/css">
+{
+	font-size:13px;
+}
+.tip {
+	position:relative;
+	color:#00c;
+	text-decoration:none;
+}
+.tip span {
+	display: none;
+}
+.tip:hover span {
+	display:block;
+	position:absolute;top:26px;left:10px;
+}
+.tip:hover span p {
+	font-size:13px;
+	color:#000;
+	text-align:left;
+	border:2px solid #000;
+	background:#F1F1F1;
+}
+</style>
+</head>
+<font face="新細明體">標楷體字型</font>
+<font face="微軟正黑體">標楷體</font>
+<body>
+<table width="1000" align="center">
+	<tr>
+		<td align="right">
+			<form action="" method="POST" name="deleteform">
+				<font style="color:#003399;font-size:13px;font-weight:bold;">匯出方式</font>
+				<select name="condition" style="color:#003399;font-size:13px;">
+					<option value="" color="blue">請選擇</option>
+					<option <?php if ($_POST["condition"] == "isbn` ASC") echo 'selected="selected"';?> value="isbn` ASC">匯出全部</option>
+					<option <?php if ($_POST["condition"] == "isbn` DESC") echo 'selected="selected"';?> value="isbn` DESC">匯出本頁</option>
+					<option <?php if ($_POST["condition"] == "publisher` ASC") echo 'selected="selected"';?> value="publisher` ASC">匯出選取項目</option>
+				</select>
+				<!--查詢的方法-->
+				<input type="hidden" name="queryCondition" id="queryCondition" value="<?php echo $queryCondition;?>"/>
+				<input type="hidden" name="querySort" id="querySort" value="<?php echo $querySort;?>"/>
+				<input type="hidden" name="action" id="action" value="export"/>
+				<input type="submit" name="submit" value="" style="background-image:url(images/export.png);width:62px;height:17px;" class="button1" onclick="return confirm('確定匯出?')"/>
+			</form>
+			<form action="" method="POST" name="sortform">
+				<font style="color:#003399;font-size:13px;font-weight:bold;">排序方式</font>
+				<select name="condition" style="color:#003399;font-size:13px;">
+					<option value="" color="blue">請選擇</option>
+					<option <?php if ($_POST["condition"] == "isbn` ASC") echo 'selected="selected"';?> value="isbn` ASC">ISBN:ASC</option>
+					<option <?php if ($_POST["condition"] == "isbn` DESC") echo 'selected="selected"';?> value="isbn` DESC">ISBN:DESC</option>
+					<option <?php if ($_POST["condition"] == "publisher` ASC") echo 'selected="selected"';?> value="publisher` ASC">出版社:ASC</option>
+					<option <?php if ($_POST["condition"] == "publisher` DESC") echo 'selected="selected"';?> value="publisher` DESC">出版社:DESC</option>
+					<option <?php if ($_POST["condition"] == "book` ASC") echo 'selected="selected"';?> value="book` ASC">書名:ASC</option>
+					<option <?php if ($_POST["condition"] == "book` DESC") echo 'selected="selected"';?> value="book` DESC">書名:DESC</option>
+					<option <?php if ($_POST["condition"] == "author` ASC") echo 'selected="selected"';?> value="author` ASC">作者:ASC</option>
+					<option <?php if ($_POST["condition"] == "author` DESC") echo 'selected="selected"';?> value="author` DESC">作者:DESC</option>
+					<option <?php if ($_POST["condition"] == "price` ASC") echo 'selected="selected"';?> value="price` ASC">售價:ASC</option>
+					<option <?php if ($_POST["condition"] == "price` DESC") echo 'selected="selected"';?> value="price` DESC">售價:DESC</option>
+					<option <?php if ($_POST["condition"] == "publishdate` ASC") echo 'selected="selected"';?> value="publishdate` ASC">發行日:ASC</option>
+					<option <?php if ($_POST["condition"] == "publishdate` DESC") echo 'selected="selected"';?> value="publishdate` DESC">發行日:DESC</option>
+				</select>
+				<input type="hidden" name="action" id="action" value="sort"/>
+				<input type="submit" name="submit" value="sort">
+				<a href="">|<</a>
+				<a href=""><<</a>
+				第 <?php ?> 頁
+				<a href="">>></a>
+				<a class="tip" href="">>|<span><p>第100000000頁</p></span></a>
+				頁碼:
+				<input type="text" size="4" />
+				<input type="submit" name="submit" value="" style="background-image:url(images/go.png);width:20px;height:21px;" class="button1"/>
+			</form>
+		</td>
+	</tr>
+</table>
+<table width="1000" align="center" style="border:5px #BBB solid;" rules="all" style="font-size:14px;font-family:DFKai-sb;">
+	<tr align="center" style="font-size:16px;font-weight:bold;" onMouseOver="this.style.backgroundColor='#EEEEEE';" onMouseOut="this.style.backgroundColor='#FFFFFF';">
+		<td><input type="checkbox"/>全選</td>
+		<td>ISBN</td>
+		<td>出版社</td>
+		<td>書名</td>
+		<td>作者</td>
+		<td>售價</td>
+		<td>發行日</td>
+		<td>編輯/刪除</td>
+	</tr>
+	<?php while ($row = $db->fetch_assoc()) {?>
+	<tr align="center" style="font-size:14px;" onMouseOver="this.style.backgroundColor='#EEEEEE';" onMouseOut="this.style.backgroundColor='#FFFFFF';">
+		<td><input type="checkbox"/></td>
+		<td><?php echo $row["isbn"];?></td>
+		<td><?php echo $row["publisher"];?></td>
+		<td><?php echo $row["book"];?></td>
+		<td><?php echo $row["author"];?></td>
+		<td><?php echo $row["price"];?></td>
+		<td><?php echo $row["publishdate"];?></td>
+		<td>
+			<form action="" method="POST" name="deleteForm">
+				<input type ="button" onclick="javascript:location.href='edit.php?id=<?php echo $row["id"];?>'" value="編輯" style="background-color:#FF9900;color:black;" />
+				<input type="hidden" name="id" id="id" value="<?php echo $row["id"];?>" />
+				<input type="hidden" name="action" id="action" value="delete" />
+				<input type ="submit" name="submit" onclick="return confirm('確定刪除?')" value="刪除" style="background-color:#FF0000;color:black;" />
+			</form>
+		</td>
+	</tr>
+	<?php }?>
+</table>
+<table align="center" width="1000">
+	<tr>
+		<td align="center">
+			<form>
+				<input type ="button" value="新增" style="background-color:#66FF99;color:black;" onclick="javascript:location.href='insert.php'" />
+			</form>
+		</td>
+	</tr>
+</table>
+</body>
+</html>
