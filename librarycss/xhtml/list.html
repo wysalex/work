@@ -68,15 +68,14 @@ function checkall(input1,input2)
 }
 </script>
 </head>
-<font face="標楷體">標楷體字型</font>
-<font face="微軟正黑體">微軟正黑體</font>
+<font face="標楷體">
 <body>
 <form method="POST" name="myform" id="form1">
 <table width="1000" align="center">
 	<tr>
 		<td align="right">
 				<font style="color:#003399;font-size:13px;font-weight:bold;">匯出方式</font>
-				<select name="method" style="color:#003399;font-size:13px;">
+				<select name="method" style="font-family:標楷體;color:#003399;font-size:13px;">
 					<option value="">請選擇</option>
 					<option value="exportAll">匯出全部</option>
 					<option value="exportPage">匯出本頁</option>
@@ -88,7 +87,7 @@ function checkall(input1,input2)
 				<input type="hidden" name="action" id="action" value="export"/>
 				<input type="submit" name="export" value=" " class="button1" onclick="return confirm('確定匯出?')"/>
 				<font style="color:#003399;font-size:13px;font-weight:bold;">排序方式</font>
-				<select name="condition" style="color:#003399;font-size:13px;">
+				<select name="condition" style="font-family:標楷體;color:#003399;font-size:13px;">
 					<option value="">請選擇</option>
 					<option <?php if ($_POST["condition"] == "isbn` ASC") echo 'selected="selected"';?> value="isbn` ASC">ISBN:ASC</option>
 					<option <?php if ($_POST["condition"] == "isbn` DESC") echo 'selected="selected"';?> value="isbn` DESC">ISBN:DESC</option>
@@ -145,9 +144,9 @@ function checkall(input1,input2)
 		<td style="font-size:14px;border:1px #BBB solid;"><?php echo $row["publishdate"];?></td>
 		<td style="font-size:14px;border:1px #BBB solid;">
 			<form method="POST" name="myform">
-				<input type ="button" onclick="javascript:location.href='edit.php?id=<?php echo $row["id"];?>'" value="編輯" style="background-color:#FF9900;color:black;" />
+				<input type ="button" onclick="javascript:location.href='edit.php?id=<?php echo $row["id"];?>'" value="編輯" style="font-family:標楷體;background-color:#FF9900;color:black;" />
 				<input type="hidden" name="id" id="id" value="<?php echo $row["id"];?>" />
-				<input type ="submit" name="deletebutton" onclick="return confirm('確定刪除?')" value="刪除" style="background-color:#FF0000;color:black;" />
+				<input type ="submit" name="deletebutton" onclick="return confirm('確定刪除?')" value="刪除" style="font-family:標楷體;background-color:#FF0000;color:black;" />
 			</form>
 
 		</td>
@@ -159,10 +158,11 @@ function checkall(input1,input2)
 	<tr>
 		<td align="center">
 			<form>
-				<input type ="button" value="新增" style="background-color:#66FF99;color:black;" onclick="javascript:location.href='insert.php'" />
+				<input type ="button" value="新增" style="font-family:標楷體;background-color:#66FF99;color:black;" onclick="javascript:location.href='insert.php'" />
 			</form>
 		</td>
 	</tr>
 </table>
 </body>
+</font>
 </html>
