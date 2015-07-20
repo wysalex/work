@@ -7,7 +7,7 @@ header("Content-Disposition: attachment; filename=test.txt");
 echo chr(239).chr(187). chr(191);exit;
 */
 
-$fp = fopen("bom.txt", "r+");
+$fp = fopen("library.txt", "r+");var_dump($fp);exit;
 
 $content = file_get_contents("bom.txt");
 $BOM = SearchBOM($content);
@@ -32,3 +32,4 @@ function SearchBOM($string) {
 if (substr($string,0,3) == pack("CCC",0xef,0xbb,0xbf)) return true;
 return false; 
 }
+

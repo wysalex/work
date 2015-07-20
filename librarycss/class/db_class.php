@@ -51,6 +51,13 @@ class DB
 		return mysql_fetch_assoc($this->_queryResult);
 	}
 
+	function num_rows() {
+		if (!$this->_queryResult) {
+			return false;
+		}
+		return mysql_num_rows($this->_queryResult);
+	}
+
 	function closeDB() {
 		mysql_close();
 	}

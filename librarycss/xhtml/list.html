@@ -3,21 +3,32 @@
 <head>
 	<title>Lirbry</title>
 	<h1 align="center">List</h1>
+<!--html 按鈕去除陰影-->
 <style type="text/css">
-<!-- 
-.button1{font-size:12px;cursor:hand;width: 58px;height: 21px;background-color: #ffffff;background-image: url(images/baby/denglu_button.jpg);background-repeat: repeat;background-attachment: scroll;background-position: center;border: 0 solid #000000;text-align: center;padding-top: 3px;} 
---> 
-</style>
-<style type="text/css">
-<!--   
-   .button1{font-size:12px;cursor:hand;width:   58px;height:   21px;background-color:   #ffffff;background-image:   url(images/baby/denglu_button.jpg);background-repeat:   repeat;background-attachment:   scroll;background-position:   center;border:   0   solid   #000000;text-align:   center;padding-top:   3px;}   
--->   
-</style>
-border:2px solid #000 #F1F1F1 13px
-<style type="text/css">
-{
-	font-size:13px;
+.button1{
+	cursor: pointer;
+	width: 62px;
+	height: 17px;
+	background-image: url(images/export.png);
+	background-repeat: repeat;
+	background-attachment: scroll;
+	background-position: center;
+	border: 0 solid #000000;
 }
+</style>
+<style type="text/css">
+.button2{
+	cursor: pointer;
+	width: 20px;
+	height: 21px;
+	background-image: url(images/go.png);
+	background-repeat: repeat;
+	background-attachment: scroll;
+	background-position: center;
+	border: 0 solid #000000;
+}
+</style>
+<style type="text/css">
 .tip {
 	position:relative;
 	color:#00c;
@@ -25,44 +36,60 @@ border:2px solid #000 #F1F1F1 13px
 }
 .tip span {
 	display: none;
+	text-decoration:none;
 }
-.tip:hover span {
+.tip:hover span{
 	display:block;
-	position:absolute;top:26px;left:10px;
-}
-.tip:hover span p {
 	font-size:13px;
-	color:#000;
-	text-align:left;
+	text-align:center;
 	border:2px solid #000;
 	background:#F1F1F1;
+	padding:10px 10px;
+	position:absolute; top:26px; left:10px;
+	color:#000;
 }
 </style>
+<script language="JavaScript">
+function checkall(input1,input2)
+{
+	var objForm = document.forms[input1];
+	var objLen = objForm.length;
+	for (var iCount = 0; iCount < objLen; iCount++) {
+		if (input2.checked == true) {
+			if (objForm.elements[iCount].type == "checkbox") {
+				objForm.elements[iCount].checked = true;
+			}
+		} else {
+			if (objForm.elements[iCount].type == "checkbox") {
+				objForm.elements[iCount].checked = false;
+			}
+		}
+	}
+}
+</script>
 </head>
-<font face="新細明體">標楷體字型</font>
-<font face="微軟正黑體">標楷體</font>
+<font face="標楷體">標楷體字型</font>
+<font face="微軟正黑體">微軟正黑體</font>
 <body>
+<form method="POST" name="myform" id="form1">
 <table width="1000" align="center">
 	<tr>
 		<td align="right">
-			<form action="" method="POST" name="deleteform">
 				<font style="color:#003399;font-size:13px;font-weight:bold;">匯出方式</font>
-				<select name="condition" style="color:#003399;font-size:13px;">
-					<option value="" color="blue">請選擇</option>
-					<option <?php if ($_POST["condition"] == "isbn` ASC") echo 'selected="selected"';?> value="isbn` ASC">匯出全部</option>
-					<option <?php if ($_POST["condition"] == "isbn` DESC") echo 'selected="selected"';?> value="isbn` DESC">匯出本頁</option>
-					<option <?php if ($_POST["condition"] == "publisher` ASC") echo 'selected="selected"';?> value="publisher` ASC">匯出選取項目</option>
+				<select name="method" style="color:#003399;font-size:13px;">
+					<option value="">請選擇</option>
+					<option value="exportAll">匯出全部</option>
+					<option value="exportPage">匯出本頁</option>
+					<option value="exportSelect">匯出選取項目</option>
 				</select>
 				<!--查詢的方法-->
+				<input type="hidden" name="start" id="start" value="<?php echo $startRow_records;?>">
 				<input type="hidden" name="queryCondition" id="queryCondition" value="<?php echo $queryCondition;?>"/>
-				<input type="hidden" name="querySort" id="querySort" value="<?php echo $querySort;?>"/>
 				<input type="hidden" name="action" id="action" value="export"/>
-				<input type="submit" name="submit" value="" style="background-image:url(images/export.png);width:62px;height:17px;" class="button1" onclick="return confirm('確定匯出?')"/>
-			</form>
-			<form action="" method="POST" name="sortform">
+				<input type="submit" name="export" value=" " class="button1" onclick="return confirm('確定匯出?')"/>
 				<font style="color:#003399;font-size:13px;font-weight:bold;">排序方式</font>
 				<select name="condition" style="color:#003399;font-size:13px;">
-					<option value="" color="blue">請選擇</option>
+					<option value="">請選擇</option>
 					<option <?php if ($_POST["condition"] == "isbn` ASC") echo 'selected="selected"';?> value="isbn` ASC">ISBN:ASC</option>
 					<option <?php if ($_POST["condition"] == "isbn` DESC") echo 'selected="selected"';?> value="isbn` DESC">ISBN:DESC</option>
 					<option <?php if ($_POST["condition"] == "publisher` ASC") echo 'selected="selected"';?> value="publisher` ASC">出版社:ASC</option>
@@ -77,50 +104,57 @@ border:2px solid #000 #F1F1F1 13px
 					<option <?php if ($_POST["condition"] == "publishdate` DESC") echo 'selected="selected"';?> value="publishdate` DESC">發行日:DESC</option>
 				</select>
 				<input type="hidden" name="action" id="action" value="sort"/>
-				<input type="submit" name="submit" value="sort">
-				<a href="">|<</a>
-				<a href=""><<</a>
-				第 <?php ?> 頁
-				<a href="">>></a>
-				<a class="tip" href="">>|<span><p>第100000000頁</p></span></a>
+				<input type="submit" name="sort" value="sort">
+				<?php if ($num_pages > 1) {?>
+				<a href="?page=1">|<</a>
+				<a href="?page=<?php echo $num_pages-1;?>"><<</a>
+				<?php }?>
+				<font style="color:#003399;font-size:13px;font-weight:bold;">第 <?php echo $num_pages;?> 頁</font>
+				<?php if ($num_pages < $total_pages) {?>
+				<a href="?page=<?php echo $num_pages+1;?>">>></a>
+				<a href="?page=<?php echo $total_pages;?>" class="tip">>|<span>第<?php echo $total_pages;?>頁</span></a>
+				<?php }?>
 				頁碼:
-				<input type="text" size="4" />
-				<input type="submit" name="submit" value="" style="background-image:url(images/go.png);width:20px;height:21px;" class="button1"/>
-			</form>
+				<input type="text" name="page" id="page" size="4"/>
+				<!--<input type="text" name="sort" id="sort" value="<?php echo $queryCondition;?>">-->
+				<input type="hidden" name="action" id="action" value="page"/>
+				<input type="submit" name="pagebutton" value=" " class="button2"/>
 		</td>
 	</tr>
 </table>
-<table width="1000" align="center" style="border:5px #BBB solid;" rules="all" style="font-size:14px;font-family:DFKai-sb;">
-	<tr align="center" style="font-size:16px;font-weight:bold;" onMouseOver="this.style.backgroundColor='#EEEEEE';" onMouseOut="this.style.backgroundColor='#FFFFFF';">
-		<td><input type="checkbox"/>全選</td>
-		<td>ISBN</td>
-		<td>出版社</td>
-		<td>書名</td>
-		<td>作者</td>
-		<td>售價</td>
-		<td>發行日</td>
-		<td>編輯/刪除</td>
+
+<table width="1000" align="center" style="border:5px #BBB solid;font-size:14px;font-family:DFKai-sb;" rules="all">
+	<tr align="center" onMouseOver="this.style.backgroundColor='#EEEEEE';" onMouseOut="this.style.backgroundColor='#FFFFFF';">
+		<td style="font-size:16px;border:1px #BBB solid;"><input type="checkbox" onclick='checkall("form1",this)' name="check"/>全選</td>
+		<td style="font-size:16px;border:1px #BBB solid;">ISBN</td>
+		<td style="font-size:16px;border:1px #BBB solid;">出版社</td>
+		<td style="font-size:16px;border:1px #BBB solid;">書名</td>
+		<td style="font-size:16px;border:1px #BBB solid;">作者</td>
+		<td style="font-size:16px;border:1px #BBB solid;">售價</td>
+		<td style="font-size:16px;border:1px #BBB solid;">發行日</td>
+		<td style="font-size:16px;border:1px #BBB solid;">編輯/刪除</td>
 	</tr>
 	<?php while ($row = $db->fetch_assoc()) {?>
-	<tr align="center" style="font-size:14px;" onMouseOver="this.style.backgroundColor='#EEEEEE';" onMouseOut="this.style.backgroundColor='#FFFFFF';">
-		<td><input type="checkbox"/></td>
-		<td><?php echo $row["isbn"];?></td>
-		<td><?php echo $row["publisher"];?></td>
-		<td><?php echo $row["book"];?></td>
-		<td><?php echo $row["author"];?></td>
-		<td><?php echo $row["price"];?></td>
-		<td><?php echo $row["publishdate"];?></td>
-		<td>
-			<form action="" method="POST" name="deleteForm">
+	<tr align="center" onMouseOver="this.style.backgroundColor='#EEEEEE';" onMouseOut="this.style.backgroundColor='#FFFFFF';">
+		<td style="border:1px #BBB solid;"><input type="checkbox" name="checkbox[]" value="<?php echo $row["id"]?>"/></td>
+		<td style="font-size:14px;border:1px #BBB solid;"><?php echo $row["isbn"];?></td>
+		<td style="font-size:14px;border:1px #BBB solid;"><?php echo $row["publisher"];?></td>
+		<td style="font-size:14px;border:1px #BBB solid;"><?php echo $row["book"];?></td>
+		<td style="font-size:14px;border:1px #BBB solid;"><?php echo $row["author"];?></td>
+		<td style="font-size:14px;border:1px #BBB solid;"><?php echo $row["price"];?></td>
+		<td style="font-size:14px;border:1px #BBB solid;"><?php echo $row["publishdate"];?></td>
+		<td style="font-size:14px;border:1px #BBB solid;">
+			<form method="POST" name="myform">
 				<input type ="button" onclick="javascript:location.href='edit.php?id=<?php echo $row["id"];?>'" value="編輯" style="background-color:#FF9900;color:black;" />
 				<input type="hidden" name="id" id="id" value="<?php echo $row["id"];?>" />
-				<input type="hidden" name="action" id="action" value="delete" />
-				<input type ="submit" name="submit" onclick="return confirm('確定刪除?')" value="刪除" style="background-color:#FF0000;color:black;" />
+				<input type ="submit" name="deletebutton" onclick="return confirm('確定刪除?')" value="刪除" style="background-color:#FF0000;color:black;" />
 			</form>
+
 		</td>
 	</tr>
 	<?php }?>
 </table>
+</form>
 <table align="center" width="1000">
 	<tr>
 		<td align="center">
