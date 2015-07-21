@@ -44,11 +44,19 @@ class DB
 		return $this->_queryResult = mysql_query($sql);
 	}
 
+	function rawQuery($sql) {
+		return mysql_query($sql);
+	}
+
 	function fetch_assoc() {
 		if (!$this->_queryResult) {
 			return false;
 		}
 		return mysql_fetch_assoc($this->_queryResult);
+	}
+
+	function raw_fetch_assoc($sql) {
+		return mysql_fetch_assoc($sql);
 	}
 
 	function num_rows() {

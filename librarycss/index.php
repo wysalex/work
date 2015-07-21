@@ -124,13 +124,6 @@ if ($_REQUEST["export"]) {
 			break;
 	}
 } elseif ($_REQUEST["condition"]) {
-	if (!$_POST["condition"]) {
-		echo "<script language=javascript>";
-		echo "alert('請選擇正確的排序條件!');";
-		echo "document.location.href=history.back();";
-		echo "</script>";
-		exit;
-	}
 	$queryCondition = $_POST["condition"];
 	$_SESSION["sSortBy"] = $_POST["condition"];
 	$query_Library = "SELECT * FROM `library` ORDER BY `" . $_POST["condition"];
@@ -148,7 +141,7 @@ if ($_REQUEST["export"]) {
 	if ($_POST["page"] > $total_pages||$_POST["page"] <= 0) {
 		echo "<script language=javascript>";
 		echo "alert('請輸入正確的數字!');";
-		echo "document.location.href=history.back();";
+		echo "document.location.href='index.php';";
 		echo "</script>";
 		exit;
 	}

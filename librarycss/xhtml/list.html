@@ -3,7 +3,7 @@
 <head>
 	<title>Lirbry</title>
 	<h1 align="center">List</h1>
-<!--html 按鈕去除陰影-->
+<script language="javascript" type="text/javascript" src="js/checkall.js"></script>
 <style type="text/css">
 .button1{
 	cursor: pointer;
@@ -62,7 +62,7 @@
 .iTip:hover span{
 	display:block;
 	font-size:13px;
-	text-align:center;
+	text-align:left;
 	border:2px solid #000;
 	background:#F1F1F1;
 	padding:10px 10px;
@@ -72,24 +72,6 @@
 	width: 300px;
 }
 </style>
-<script language="JavaScript">
-function checkall(input1,input2)
-{
-	var objForm = document.forms[input1];
-	var objLen = objForm.length;
-	for (var iCount = 0; iCount < objLen; iCount++) {
-		if (input2.checked == true) {
-			if (objForm.elements[iCount].type == "checkbox") {
-				objForm.elements[iCount].checked = true;
-			}
-		} else {
-			if (objForm.elements[iCount].type == "checkbox") {
-				objForm.elements[iCount].checked = false;
-			}
-		}
-	}
-}
-</script>
 </head>
 <font face="標楷體">
 <body>
@@ -150,7 +132,7 @@ function checkall(input1,input2)
 </table>
 <table width="1000" align="center" style="border:5px #BBB solid;font-size:14px;font-family:DFKai-sb;" rules="all">
 	<tr align="center" onMouseOver="this.style.backgroundColor='#EEEEEE';" onMouseOut="this.style.backgroundColor='#FFFFFF';">
-		<td width="80" style="font-size:16px;border:1px #BBB solid;"><input type="checkbox" onclick='checkall("form1",this)' name="check"/>全選</td>
+		<td width="80" style="font-size:16px;border:1px #BBB solid;"><input type="checkbox" onclick='return checkall("form1",this)' name="check"/>全選</td>
 		<td width="130" style="font-size:16px;border:1px #BBB solid;">ISBN</td>
 		<td width="90" style="font-size:16px;border:1px #BBB solid;">出版社</td>
 		<td width="" style="font-size:16px;border:1px #BBB solid;">書名</td>
@@ -159,21 +141,19 @@ function checkall(input1,input2)
 		<td width="100" style="font-size:16px;border:1px #BBB solid;">發行日</td>
 		<td width="130" style="font-size:16px;border:1px #BBB solid;">編輯/刪除</td>
 	</tr>
-	<?php $pub = mysql_fetch_assoc($publisher);?>
+	<?php $pub = $db->rawQuery($publisher);?>
 	<?php while ($row = $db->fetch_assoc()) {?>
 	<?php $searchSql = "SELECT * FROM `publisher` WHERE `name` = '" . $row["publisher"] . "'";?>
-	<?php $result = mysql_query($searchSql);?>
+	<?php $result = $db->rawQuery($searchSql);?>
 	<tr align="center" onMouseOver="this.style.backgroundColor='#EEEEEE';" onMouseOut="this.style.backgroundColor='#FFFFFF';">
 		<td style="border:1px #BBB solid;"><input type="checkbox" name="checkbox[]" value="<?php echo $row["id"]?>"/></td>
 		<td style="font-size:14px;border:1px #BBB solid;"><?php echo $row["isbn"];?></td>
-		<?php
-		$pub = mysql_fetch_assoc($result);
-		if ($pub) {
-			echo nl2br("<td style='font-size:14px;border:1px #BBB solid;' class='iTip'>" . $row["publisher"] . "<span>" . $pub["phone"] . "\n" . $pub["address"] . "</span></td>");
-		} else {
-			echo "<td style='font-size:14px;border:1px #BBB solid;'>" . $row["publisher"] . "</td>";
-		}
-		?>
+		<?php $pub = $db->raw_fetch_assoc($result);?>
+		<?php if ($pub) {?>
+		<?php echo nl2br("<td style='font-family:標楷體;font-size:14px;border:1px #BBB solid;' class='iTip'>" . $row["publisher"] . "<span>" . $pub["phone"] . "\n" . $pub["address"] . "</span></td>");?>
+		<?php } else {?>
+		<?php echo "<td style='font-family:標楷體;font-size:14px;border:1px #BBB solid;'>" . $row["publisher"] . "</td>";?>
+		<?php }?>
 		<td style="font-size:14px;border:1px #BBB solid;"><?php echo $row["book"];?></td>
 		<td style="font-size:14px;border:1px #BBB solid;"><?php echo $row["author"];?></td>
 		<td style="font-size:14px;border:1px #BBB solid;"><?php echo $row["price"];?></td>
