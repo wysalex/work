@@ -47,6 +47,7 @@
 	position:absolute;
 	top:22px; left:18px;
 	color:#000;
+	width: 45px;
 }
 </style>
 <style type="text/css">
@@ -68,6 +69,7 @@
 	position:absolute;
 	top:26px; left:93px;
 	color:#000;
+	width: 300px;
 }
 </style>
 <script language="JavaScript">
@@ -94,7 +96,8 @@ function checkall(input1,input2)
 <form method="POST" name="myform" id="form1">
 <table width="1000" align="center">
 	<tr>
-		<td align="right">
+		<td align="right" colspan="7">
+			<form method="POST" name="myform">
 				<font style="color:#003399;font-size:13px;font-weight:bold;">匯出方式</font>
 				<select name="method" style="font-family:標楷體;color:#003399;font-size:13px;">
 					<option value="">請選擇</option>
@@ -102,13 +105,15 @@ function checkall(input1,input2)
 					<option value="exportPage">匯出本頁</option>
 					<option value="exportSelect">匯出選取項目</option>
 				</select>
-				<!--查詢的方法-->
-				<input type="hidden" name="start" id="start" value="<?php echo $startRow_records;?>">
-				<input type="hidden" name="queryCondition" id="queryCondition" value="<?php echo $queryCondition;?>"/>
-				<input type="hidden" name="action" id="action" value="export"/>
 				<input type="submit" name="export" value=" " class="button1" onclick="return confirm('確定匯出?')"/>
+			</form>
+		</td>
+	</tr>
+	<tr>
+		<td align="right">
+			<form method="POST" name="myform">
 				<font style="color:#003399;font-size:13px;font-weight:bold;">排序方式</font>
-				<select name="condition" style="font-family:標楷體;color:#003399;font-size:13px;">
+				<select name="condition" style="font-family:標楷體;color:#003399;font-size:13px;" onchange="submit()">
 					<option value="">請選擇</option>
 					<option <?php if ($_SESSION["sSortBy"] == "isbn` ASC") echo 'selected="selected"';?> value="isbn` ASC">ISBN:ASC</option>
 					<option <?php if ($_SESSION["sSortBy"] == "isbn` DESC") echo 'selected="selected"';?> value="isbn` DESC">ISBN:DESC</option>
@@ -123,25 +128,26 @@ function checkall(input1,input2)
 					<option <?php if ($_SESSION["sSortBy"] == "publishdate` ASC") echo 'selected="selected"';?> value="publishdate` ASC">發行日:ASC</option>
 					<option <?php if ($_SESSION["sSortBy"] == "publishdate` DESC") echo 'selected="selected"';?> value="publishdate` DESC">發行日:DESC</option>
 				</select>
-				<input type="hidden" name="action" id="action" value="sort"/>
-				<input type="submit" name="sort" value="sort">
-				<?php if ($num_pages > 1) {?>
-				<a href="?page=1">|<</a>
-				<a href="?page=<?php echo $num_pages-1;?>"><<</a>
-				<?php }?>
-				<font style="color:#003399;font-size:13px;font-weight:bold;">第 <?php echo $num_pages;?> 頁</font>
-				<?php if ($num_pages < $total_pages) {?>
-				<a href="?page=<?php echo $num_pages+1;?>">>></a>
-				<a href="?page=<?php echo $total_pages;?>" class="pTip">>|<span>第<?php echo $total_pages;?>頁</span></a>
-				<?php }?>
+			</form>
+		</td>
+		<form method="POST" name="myform">
+			<?php if ($num_pages > 1) {?>
+			<td width="20"><a href="?page=1">|<</a></td>
+			<td width="20"><a href="?page=<?php echo $num_pages-1;?>"><<</a></td>
+			<?php }?>
+			<td width="45"><font style="color:#003399;font-size:13px;font-weight:bold;">第 <?php echo $num_pages;?> 頁</font></td>
+			<?php if ($num_pages < $total_pages) {?>
+			<td width="20"><a href="?page=<?php echo $num_pages+1;?>">>></a></td>
+			<td width="20"><a href="?page=<?php echo $total_pages;?>" class="pTip">>|<span>第<?php echo $total_pages;?>頁</span></a></td>
+			<?php }?>
+			<td width="115">
 				頁碼:
 				<input type="text" name="page" id="page" size="4"/>
-				<input type="hidden" name="action" id="action" value="page"/>
 				<input type="submit" name="pagebutton" value=" " class="button2"/>
-		</td>
+			</td>
+		</form>
 	</tr>
 </table>
-
 <table width="1000" align="center" style="border:5px #BBB solid;font-size:14px;font-family:DFKai-sb;" rules="all">
 	<tr align="center" onMouseOver="this.style.backgroundColor='#EEEEEE';" onMouseOut="this.style.backgroundColor='#FFFFFF';">
 		<td width="80" style="font-size:16px;border:1px #BBB solid;"><input type="checkbox" onclick='checkall("form1",this)' name="check"/>全選</td>
@@ -163,7 +169,7 @@ function checkall(input1,input2)
 		<?php
 		$pub = mysql_fetch_assoc($result);
 		if ($pub) {
-			echo "<td style='font-size:14px;border:1px #BBB solid;' class='iTip'>" . $row["publisher"] . "<span>" . $pub["phone"] . $pub["address"] . "</span></td>";
+			echo nl2br("<td style='font-size:14px;border:1px #BBB solid;' class='iTip'>" . $row["publisher"] . "<span>" . $pub["phone"] . "\n" . $pub["address"] . "</span></td>");
 		} else {
 			echo "<td style='font-size:14px;border:1px #BBB solid;'>" . $row["publisher"] . "</td>";
 		}
@@ -182,6 +188,7 @@ function checkall(input1,input2)
 		</td>
 	</tr>
 	<?php }?>
+	<?php $db->closeDB();?>
 </table>
 </form>
 <table align="center" width="1000">
