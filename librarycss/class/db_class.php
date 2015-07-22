@@ -1,5 +1,5 @@
 <?php
-//header('Content-type: text/html; charset=utf-8');
+header('Content-type: text/html; charset=utf-8');
 
 class DB
 {
@@ -12,6 +12,7 @@ class DB
 
 	function __construct($dbname) {
 		$this->connect_db($dbname);
+		$this->checkTable();
 	}
 
 	function connect_db($dbname){

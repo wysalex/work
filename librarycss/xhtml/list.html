@@ -5,8 +5,9 @@
 	<title>Lirbry</title>
 	<h1 align="center">List</h1>
 <script language="javascript" type="text/javascript" src="js/checkall.js"></script>
-<link rel=stylesheet type="text/css" href="css/button.css">
-<link rel=stylesheet type="text/css" href="css/tip.css">
+<link rel=stylesheet type="text/css" href="style/button.css">
+<link rel=stylesheet type="text/css" href="style/tip.css">
+<link rel=stylesheet type="text/css" href="style/table.css">
 </head>
 <font face="標楷體">
 <body>
@@ -32,33 +33,43 @@
 				<font style="color:#003399;font-size:13px;font-weight:bold;">排序方式</font>
 				<select name="sortBy" style="font-family:標楷體;color:#003399;font-size:13px;" onchange="submit()">
 					<option value="">請選擇</option>
-					<option <?php if ($_SESSION["sSortBy"] == "isbn` ASC") echo 'selected="selected"';?> value="isbn` ASC">ISBN:ASC</option>
-					<option <?php if ($_SESSION["sSortBy"] == "isbn` DESC") echo 'selected="selected"';?> value="isbn` DESC">ISBN:DESC</option>
-					<option <?php if ($_SESSION["sSortBy"] == "publisher` ASC") echo 'selected="selected"';?> value="publisher` ASC">出版社:ASC</option>
-					<option <?php if ($_SESSION["sSortBy"] == "publisher` DESC") echo 'selected="selected"';?> value="publisher` DESC">出版社:DESC</option>
-					<option <?php if ($_SESSION["sSortBy"] == "book` ASC") echo 'selected="selected"';?> value="book` ASC">書名:ASC</option>
-					<option <?php if ($_SESSION["sSortBy"] == "book` DESC") echo 'selected="selected"';?> value="book` DESC">書名:DESC</option>
-					<option <?php if ($_SESSION["sSortBy"] == "author` ASC") echo 'selected="selected"';?> value="author` ASC">作者:ASC</option>
-					<option <?php if ($_SESSION["sSortBy"] == "author` DESC") echo 'selected="selected"';?> value="author` DESC">作者:DESC</option>
-					<option <?php if ($_SESSION["sSortBy"] == "price` ASC") echo 'selected="selected"';?> value="price` ASC">售價:ASC</option>
-					<option <?php if ($_SESSION["sSortBy"] == "price` DESC") echo 'selected="selected"';?> value="price` DESC">售價:DESC</option>
-					<option <?php if ($_SESSION["sSortBy"] == "publishdate` ASC") echo 'selected="selected"';?> value="publishdate` ASC">發行日:ASC</option>
-					<option <?php if ($_SESSION["sSortBy"] == "publishdate` DESC") echo 'selected="selected"';?> value="publishdate` DESC">發行日:DESC</option>
+					<option <?php if ($sort == "isbn_ASC") echo 'selected="selected"';?> value="isbn_ASC">ISBN:ASC</option>
+					<option <?php if ($sort == "isbn_DESC") echo 'selected="selected"';?> value="isbn_DESC">ISBN:DESC</option>
+					<option <?php if ($sort == "publisher_ASC") echo 'selected="selected"';?> value="publisher_ASC">出版社:ASC</option>
+					<option <?php if ($sort == "publisher_DESC") echo 'selected="selected"';?> value="publisher_DESC">出版社:DESC</option>
+					<option <?php if ($sort == "book_ASC") echo 'selected="selected"';?> value="book_ASC">書名:ASC</option>
+					<option <?php if ($sort == "book_DESC") echo 'selected="selected"';?> value="book_DESC">書名:DESC</option>
+					<option <?php if ($sort == "author_ASC") echo 'selected="selected"';?> value="author_ASC">作者:ASC</option>
+					<option <?php if ($sort == "author_DESC") echo 'selected="selected"';?> value="author_DESC">作者:DESC</option>
+					<option <?php if ($sort == "price_ASC") echo 'selected="selected"';?> value="price_ASC">售價:ASC</option>
+					<option <?php if ($sort == "price_DESC") echo 'selected="selected"';?> value="price_DESC">售價:DESC</option>
+					<option <?php if ($sort == "publishdate_ASC") echo 'selected="selected"';?> value="publishdate_ASC">發行日:ASC</option>
+					<option <?php if ($sort == "publishdate_DESC") echo 'selected="selected"';?> value="publishdate_DESC">發行日:DESC</option>
 				</select>
 			</form>
 		</td>
 		<form method="POST" name="myform">
 			<?php if ($num_pages > 1) {?>
+			<?php if ($_GET['uSort']) {?>
+			<td width="20"><a href="?uSort=<?php echo $sort;?>&page=1">|<</a></td>
+			<td width="20"><a href="?uSort=<?php echo $sort;?>&page=<?php echo $num_pages-1;?>"><<</a></td>
+			<?php } else {?>
 			<td width="20"><a href="?page=1">|<</a></td>
 			<td width="20"><a href="?page=<?php echo $num_pages-1;?>"><<</a></td>
 			<?php }?>
+			<?php }?>
 			<td width="50"><font style="color:#003399;font-size:13px;font-weight:bold;">第 <?php echo $num_pages;?> 頁</font></td>
 			<?php if ($num_pages < $total_pages) {?>
+			<?php if ($_GET['uSort']) {?>
+			<td width="20"><a href="?uSort=<?php echo $sort;?>&page=<?php echo $num_pages+1;?>">>></a></td>
+			<td width="20"><a href="?uSort=<?php echo $sort;?>&page=<?php echo $total_pages;?>" class="pTip">>|<span>第<?php echo $total_pages;?>頁</span></a></td>
+			<?php } else {?>
 			<td width="20"><a href="?page=<?php echo $num_pages+1;?>">>></a></td>
 			<td width="20"><a href="?page=<?php echo $total_pages;?>" class="pTip">>|<span>第<?php echo $total_pages;?>頁</span></a></td>
 			<?php }?>
+			<?php }?>
 			<td width="115">
-				頁碼:
+				<font style="color:#003399;font-size:13px;font-weight:bold;">頁碼:</font>
 				<input type="text" name="page" id="page" size="4"/>
 				<input type="submit" name="pageButton" value=" " class="button2"/>
 			</td>
@@ -67,21 +78,21 @@
 </table>
 <table width="1000" align="center" style="border:5px #BBB solid;font-size:14px;font-family:DFKai-sb;" rules="all">
 	<tr align="center" onMouseOver="this.style.backgroundColor='#EEEEEE';" onMouseOut="this.style.backgroundColor='#FFFFFF';">
-		<td width="80" style="font-size:16px;border:1px #BBB solid;"><input type="checkbox" onclick='return checkall("form1",this)' name="check"/>全選</td>
-		<td width="130" style="font-size:16px;border:1px #BBB solid;">ISBN</td>
-		<td width="90" style="font-size:16px;border:1px #BBB solid;">出版社</td>
-		<td width="" style="font-size:16px;border:1px #BBB solid;">書名</td>
-		<td width="120" style="font-size:16px;border:1px #BBB solid;">作者</td>
-		<td width="60" style="font-size:16px;border:1px #BBB solid;">售價</td>
-		<td width="100" style="font-size:16px;border:1px #BBB solid;">發行日</td>
-		<td width="130" style="font-size:16px;border:1px #BBB solid;">編輯/刪除</td>
+		<td width="80" class="title"><input type="checkbox" onclick='return checkall("form1",this)' name="check"/>全選</td>
+		<td width="130" class="title">ISBN</td>
+		<td width="90" class="title">出版社</td>
+		<td width="" class="title">書名</td>
+		<td width="120" class="title">作者</td>
+		<td width="60" class="title">售價</td>
+		<td width="100" class="title">發行日</td>
+		<td width="130" class="title">編輯/刪除</td>
 	</tr>
 	<?php while ($row = $db->fetch_assoc()) {?>
 	<?php $searchSql = "SELECT * FROM `publisher` WHERE `name` = '" . $row["publisher"] . "'";?>
 	<?php $result = $db->rawQuery($searchSql);?>
 	<tr align="center" onMouseOver="this.style.backgroundColor='#EEEEEE';" onMouseOut="this.style.backgroundColor='#FFFFFF';">
 		<td style="border:1px #BBB solid;"><input type="checkbox" name="checkbox[]" value="<?php echo $row["id"]?>"/></td>
-		<td style="font-size:14px;border:1px #BBB solid;"><?php echo $row["isbn"];?></td>
+		<td class="td"><?php echo $row["isbn"];?></td>
 		<?php if ($result) {?>
 		<?php $pub = $db->raw_fetch_assoc($result);?>
 		<?php }?>
@@ -90,11 +101,11 @@
 		<?php } else {?>
 		<?php echo "<td style='font-family:標楷體;font-size:14px;border:1px #BBB solid;'>" . $row["publisher"] . "</td>";?>
 		<?php }?>
-		<td style="font-size:14px;border:1px #BBB solid;"><?php echo $row["book"];?></td>
-		<td style="font-size:14px;border:1px #BBB solid;"><?php echo $row["author"];?></td>
-		<td style="font-size:14px;border:1px #BBB solid;"><?php echo $row["price"];?></td>
-		<td style="font-size:14px;border:1px #BBB solid;"><?php echo $row["publishdate"];?></td>
-		<td style="font-size:14px;border:1px #BBB solid;">
+		<td class="td"><?php echo $row["book"];?></td>
+		<td class="td"><?php echo $row["author"];?></td>
+		<td class="td"><?php echo $row["price"];?></td>
+		<td class="td"><?php echo $row["publishdate"];?></td>
+		<td class="td">
 			<form method="POST" name="myform">
 				<input type ="button" onclick="javascript:location.href='edit.php?id=<?php echo $row["id"];?>'" value="編輯" style="font-family:標楷體;background-color:#FF9900;color:black;" />
 				<input type="hidden" name="id" id="id" value="<?php echo $row["id"];?>" />

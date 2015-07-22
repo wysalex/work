@@ -14,7 +14,7 @@ if (isset($_POST['action']) && ($_POST['action'] == 'add')) {
 	$insert_Book .= "'" . trim($_POST["price"]) . "',";
 	$insert_Book .= "'" . trim($_POST["publishdate"]) . "')";
 
-	$db->checkTable();
+	//$db->checkTable();
 	$db->bookQuery($insert_Book);
 	$db->closeDB();
 	unset($_SESSION['sSortBy']);
