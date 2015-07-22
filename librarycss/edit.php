@@ -3,7 +3,7 @@ require_once('class/db_class.php');
 
 $db = new DB('test');
 
-if (isset($_POST["action"]) && ($_POST["action"] == "update")) {
+if (isset($_POST['action']) && ($_POST['action'] == 'update')) {
 	$update_Book = "UPDATE `library` SET ";
 	$update_Book .= " `publisher` = '" . trim($_POST["publisher"]) . "',";
 	$update_Book .= " `book` = '" . trim($_POST["book"]) . "',";
@@ -14,12 +14,12 @@ if (isset($_POST["action"]) && ($_POST["action"] == "update")) {
 
 	$db->bookQuery($update_Book);
 	$db->closeDB();
-	header("Location: index.php");
+	header('Location: index.php');
 	exit;
 }
 
-if ($_GET["id"]) {
-	$query_Book = "SELECT * FROM `library` WHERE `id` = " . $_GET["id"];
+if ($_GET['id']) {
+	$query_Book = "SELECT * FROM `library` WHERE `id` = " . $_GET['id'];
 	$db->bookQuery($query_Book);
 	$row = $db->fetch_assoc();
 	$db->closeDB();

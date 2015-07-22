@@ -1,77 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 	<title>Lirbry</title>
 	<h1 align="center">List</h1>
 <script language="javascript" type="text/javascript" src="js/checkall.js"></script>
-<style type="text/css">
-.button1{
-	cursor: pointer;
-	width: 62px;
-	height: 17px;
-	background-image: url(images/export.png);
-	background-repeat: repeat;
-	background-attachment: scroll;
-	background-position: center;
-	border: 0 solid #000000;
-}
-</style>
-<style type="text/css">
-.button2{
-	cursor: pointer;
-	width: 20px;
-	height: 21px;
-	background-image: url(images/go.png);
-	background-repeat: repeat;
-	background-attachment: scroll;
-	background-position: center;
-	border: 0 solid #000000;
-}
-</style>
-<style type="text/css">
-.pTip {
-	position:relative;
-	text-decoration:none;
-}
-.pTip span {
-	display: none;
-	text-decoration:none;
-}
-.pTip:hover span{
-	display:block;
-	font-size:13px;
-	text-align:center;
-	border:2px solid #000;
-	background:#F1F1F1;
-	padding:10px 10px;
-	position:absolute;
-	top:22px; left:18px;
-	color:#000;
-	width: 45px;
-}
-</style>
-<style type="text/css">
-.iTip {
-	position:relative;
-	text-decoration:none;
-}
-.iTip span {
-	display: none;
-	text-decoration:none;
-}
-.iTip:hover span{
-	display:block;
-	font-size:13px;
-	text-align:left;
-	border:2px solid #000;
-	background:#F1F1F1;
-	padding:10px 10px;
-	position:absolute;
-	top:26px; left:93px;
-	color:#000;
-	width: 300px;
-}
-</style>
+<link rel=stylesheet type="text/css" href="css/button.css">
+<link rel=stylesheet type="text/css" href="css/tip.css">
 </head>
 <font face="標楷體">
 <body>
@@ -95,7 +30,7 @@
 		<td align="right">
 			<form method="POST" name="myform">
 				<font style="color:#003399;font-size:13px;font-weight:bold;">排序方式</font>
-				<select name="condition" style="font-family:標楷體;color:#003399;font-size:13px;" onchange="submit()">
+				<select name="sortBy" style="font-family:標楷體;color:#003399;font-size:13px;" onchange="submit()">
 					<option value="">請選擇</option>
 					<option <?php if ($_SESSION["sSortBy"] == "isbn` ASC") echo 'selected="selected"';?> value="isbn` ASC">ISBN:ASC</option>
 					<option <?php if ($_SESSION["sSortBy"] == "isbn` DESC") echo 'selected="selected"';?> value="isbn` DESC">ISBN:DESC</option>
@@ -117,7 +52,7 @@
 			<td width="20"><a href="?page=1">|<</a></td>
 			<td width="20"><a href="?page=<?php echo $num_pages-1;?>"><<</a></td>
 			<?php }?>
-			<td width="45"><font style="color:#003399;font-size:13px;font-weight:bold;">第 <?php echo $num_pages;?> 頁</font></td>
+			<td width="50"><font style="color:#003399;font-size:13px;font-weight:bold;">第 <?php echo $num_pages;?> 頁</font></td>
 			<?php if ($num_pages < $total_pages) {?>
 			<td width="20"><a href="?page=<?php echo $num_pages+1;?>">>></a></td>
 			<td width="20"><a href="?page=<?php echo $total_pages;?>" class="pTip">>|<span>第<?php echo $total_pages;?>頁</span></a></td>
@@ -125,7 +60,7 @@
 			<td width="115">
 				頁碼:
 				<input type="text" name="page" id="page" size="4"/>
-				<input type="submit" name="pagebutton" value=" " class="button2"/>
+				<input type="submit" name="pageButton" value=" " class="button2"/>
 			</td>
 		</form>
 	</tr>
@@ -141,14 +76,15 @@
 		<td width="100" style="font-size:16px;border:1px #BBB solid;">發行日</td>
 		<td width="130" style="font-size:16px;border:1px #BBB solid;">編輯/刪除</td>
 	</tr>
-	<?php $pub = $db->rawQuery($publisher);?>
 	<?php while ($row = $db->fetch_assoc()) {?>
 	<?php $searchSql = "SELECT * FROM `publisher` WHERE `name` = '" . $row["publisher"] . "'";?>
 	<?php $result = $db->rawQuery($searchSql);?>
 	<tr align="center" onMouseOver="this.style.backgroundColor='#EEEEEE';" onMouseOut="this.style.backgroundColor='#FFFFFF';">
 		<td style="border:1px #BBB solid;"><input type="checkbox" name="checkbox[]" value="<?php echo $row["id"]?>"/></td>
 		<td style="font-size:14px;border:1px #BBB solid;"><?php echo $row["isbn"];?></td>
+		<?php if ($result) {?>
 		<?php $pub = $db->raw_fetch_assoc($result);?>
+		<?php }?>
 		<?php if ($pub) {?>
 		<?php echo nl2br("<td style='font-family:標楷體;font-size:14px;border:1px #BBB solid;' class='iTip'>" . $row["publisher"] . "<span>" . $pub["phone"] . "\n" . $pub["address"] . "</span></td>");?>
 		<?php } else {?>
@@ -162,7 +98,7 @@
 			<form method="POST" name="myform">
 				<input type ="button" onclick="javascript:location.href='edit.php?id=<?php echo $row["id"];?>'" value="編輯" style="font-family:標楷體;background-color:#FF9900;color:black;" />
 				<input type="hidden" name="id" id="id" value="<?php echo $row["id"];?>" />
-				<input type ="submit" name="deletebutton" onclick="return confirm('確定刪除?')" value="刪除" style="font-family:標楷體;background-color:#FF0000;color:black;" />
+				<input type ="submit" name="deleteButton" onclick="return confirm('確定刪除?')" value="刪除" style="font-family:標楷體;background-color:#FF0000;color:black;" />
 			</form>
 
 		</td>
@@ -174,9 +110,7 @@
 <table align="center" width="1000">
 	<tr>
 		<td align="center">
-			<form>
-				<input type ="button" value="新增" style="font-family:標楷體;background-color:#66FF99;color:black;" onclick="javascript:location.href='insert.php'" />
-			</form>
+			<input type ="button" value="新增" style="font-family:標楷體;background-color:#66FF99;color:black;" onclick="javascript:location.href='insert.php'" />
 		</td>
 	</tr>
 </table>

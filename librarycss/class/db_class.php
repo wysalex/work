@@ -1,5 +1,5 @@
 <?php
-header('Content-type: text/html; charset=utf-8');
+//header('Content-type: text/html; charset=utf-8');
 
 class DB
 {
@@ -17,7 +17,7 @@ class DB
 	function connect_db($dbname){
 		$dbconnect = @mysql_connect($this->host, $this->username, $this->password);
 		if (!$dbconnect)
-			die ("MySQL Link Error!");
+			die ('MySQL Link Error!');
 		mysql_query("SET NAMES utf8");
 		if (!mysql_select_db($dbname, $dbconnect)) {
 			$create_Database = "CREATE DATABASE IF NOT EXISTS `" . $dbname . "` CHARACTER SET utf8 COLLATE utf8_general_ci";
@@ -45,6 +45,9 @@ class DB
 	}
 
 	function rawQuery($sql) {
+		if (!mysql_query($sql)) {
+			return false;
+		}
 		return mysql_query($sql);
 	}
 
