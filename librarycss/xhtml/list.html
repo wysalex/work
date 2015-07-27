@@ -5,17 +5,18 @@
 	<title>Lirbry</title>
 	<h1 align="center">List</h1>
 <script language="javascript" type="text/javascript" src="js/checkall.js"></script>
+<script type="text/javascript" src="js/tips.js"></script>
 <link rel=stylesheet type="text/css" href="style/button.css">
-<link rel=stylesheet type="text/css" href="style/tip.css">
 <link rel=stylesheet type="text/css" href="style/table.css">
+<link rel=stylesheet type="text/css" href="style/tips.css" />
 </head>
 <font face="標楷體">
 <body>
-<form method="POST" name="myform" id="form1">
+<form method="POST" name="myForm">
 <table width="1000" align="center">
 	<tr>
 		<td align="right" colspan="7">
-			<form method="POST" name="myform">
+			<form method="POST" name="exportForm">
 				<font style="color:#003399;font-size:13px;font-weight:bold;">匯出方式</font>
 				<select name="method" style="font-family:標楷體;color:#003399;font-size:13px;">
 					<option value="">請選擇</option>
@@ -29,7 +30,7 @@
 	</tr>
 	<tr>
 		<td align="right">
-			<form method="POST" name="myform">
+			<form method="POST" name="sortForm">
 				<font style="color:#003399;font-size:13px;font-weight:bold;">排序方式</font>
 				<select name="sortBy" style="font-family:標楷體;color:#003399;font-size:13px;" onchange="submit()">
 					<option value="">請選擇</option>
@@ -48,7 +49,7 @@
 				</select>
 			</form>
 		</td>
-		<form method="POST" name="myform">
+		<form method="POST" name="pageForm">
 			<?php if ($num_pages > 1) {?>
 			<?php if ($_GET['uSort']) {?>
 			<td width="20"><a href="?uSort=<?php echo $sort;?>&page=1">|<</a></td>
@@ -62,15 +63,15 @@
 			<?php if ($num_pages < $total_pages) {?>
 			<?php if ($_GET['uSort']) {?>
 			<td width="20"><a href="?uSort=<?php echo $sort;?>&page=<?php echo $num_pages+1;?>">>></a></td>
-			<td width="20"><a href="?uSort=<?php echo $sort;?>&page=<?php echo $total_pages;?>" class="pTip">>|<span>第<?php echo $total_pages;?>頁</span></a></td>
+			<td width="20" id="pageTips"><a href="?uSort=<?php echo $sort;?>&page=<?php echo $total_pages;?>" onmouseover="tip.start(this)" tips="第<?php echo $total_pages;?>頁">>|</a></td>
 			<?php } else {?>
 			<td width="20"><a href="?page=<?php echo $num_pages+1;?>">>></a></td>
-			<td width="20"><a href="?page=<?php echo $total_pages;?>" class="pTip">>|<span>第<?php echo $total_pages;?>頁</span></a></td>
+			<td width="20"><a href="?page=<?php echo $total_pages;?>" onmouseover="tip.start(this)" tips="第<?php echo $total_pages;?>頁">>|</a></td>
 			<?php }?>
 			<?php }?>
-			<td width="115">
+			<td width="120">
 				<font style="color:#003399;font-size:13px;font-weight:bold;">頁碼:</font>
-				<input type="text" name="page" id="page" size="4"/>
+				<input type="text" name="num" id="num" size="4"/>
 				<input type="submit" name="pageButton" value=" " class="button2"/>
 			</td>
 		</form>
@@ -78,7 +79,7 @@
 </table>
 <table width="1000" align="center" style="border:5px #BBB solid;font-size:14px;font-family:DFKai-sb;" rules="all">
 	<tr align="center" onMouseOver="this.style.backgroundColor='#EEEEEE';" onMouseOut="this.style.backgroundColor='#FFFFFF';">
-		<td width="80" class="title"><input type="checkbox" onclick='return checkall("form1",this)' name="check"/>全選</td>
+		<td width="80" class="title"><label><input type="checkbox" onclick="return selectAll(this)" name="check"/>全選</label></td>
 		<td width="130" class="title">ISBN</td>
 		<td width="90" class="title">出版社</td>
 		<td width="" class="title">書名</td>
@@ -88,30 +89,20 @@
 		<td width="130" class="title">編輯/刪除</td>
 	</tr>
 	<?php while ($row = $db->fetch_assoc()) {?>
-	<?php $searchSql = "SELECT * FROM `publisher` WHERE `name` = '" . $row["publisher"] . "'";?>
-	<?php $result = $db->rawQuery($searchSql);?>
 	<tr align="center" onMouseOver="this.style.backgroundColor='#EEEEEE';" onMouseOut="this.style.backgroundColor='#FFFFFF';">
 		<td style="border:1px #BBB solid;"><input type="checkbox" name="checkbox[]" value="<?php echo $row["id"]?>"/></td>
 		<td class="td"><?php echo $row["isbn"];?></td>
-		<?php if ($result) {?>
-		<?php $pub = $db->raw_fetch_assoc($result);?>
-		<?php }?>
-		<?php if ($pub) {?>
-		<?php echo nl2br("<td style='font-family:標楷體;font-size:14px;border:1px #BBB solid;' class='iTip'>" . $row["publisher"] . "<span>" . $pub["phone"] . "\n" . $pub["address"] . "</span></td>");?>
-		<?php } else {?>
-		<?php echo "<td style='font-family:標楷體;font-size:14px;border:1px #BBB solid;'>" . $row["publisher"] . "</td>";?>
-		<?php }?>
+		<?php compare($row["publisher"]);?>
 		<td class="td"><?php echo $row["book"];?></td>
 		<td class="td"><?php echo $row["author"];?></td>
 		<td class="td"><?php echo $row["price"];?></td>
 		<td class="td"><?php echo $row["publishdate"];?></td>
 		<td class="td">
-			<form method="POST" name="myform">
+			<form method="POST" name="deleteForm">
 				<input type ="button" onclick="javascript:location.href='edit.php?id=<?php echo $row["id"];?>'" value="編輯" style="font-family:標楷體;background-color:#FF9900;color:black;" />
 				<input type="hidden" name="id" id="id" value="<?php echo $row["id"];?>" />
 				<input type ="submit" name="deleteButton" onclick="return confirm('確定刪除?')" value="刪除" style="font-family:標楷體;background-color:#FF0000;color:black;" />
 			</form>
-
 		</td>
 	</tr>
 	<?php }?>
@@ -125,6 +116,7 @@
 		</td>
 	</tr>
 </table>
+	<div id="mjs:tip" class="tip" style="position:absolute;left:0;top:0;display:none;"></div>
 </body>
 </font>
 </html>
