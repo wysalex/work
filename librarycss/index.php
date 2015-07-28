@@ -212,20 +212,22 @@ switch ($_POST["operate"]) {
 }
 */
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-function compare($input) {
-	$db = new DB('test');
 
-	$sql = "SELECT * FROM `publisher`";
-	$result = $db->rawQuery($sql);
-	while ($row = $db->raw_fetch_assoc($result)) {
-		$aRow[$row['name']]['phone'] .= $row['phone'];
-		$aRow[$row['name']]['address'] .= $row['address'];
-	}
-	if ($aRow[$input]) {
+$sql = "SELECT * FROM `publisher`";
+$result = $db->rawQuery($sql);
+while ($row = $db->raw_fetch_assoc($result)) {
+	$aRow[$row['name']]['phone'] .= $row['phone'];
+	$aRow[$row['name']]['address'] .= $row['address'];
+}
+
+function compare($input, $pubData) {
+
+
+	if ($pubData[$input]) {
 		$str = "<td style='font-family:標楷體;font-size:14px;border:1px #BBB solid;' ";
 		$str .= "onmouseover='tip.start(this)' tips='";
-		$str .= $aRow[$input]['phone'] . "\n";
-		$str .= $aRow[$input]['address'];
+		$str .= $pubData[$input]['phone'] . "\n";
+		$str .= $pubData[$input]['address'];
 		$str .= "'><span>" . $input . "</span></td>";
 		echo nl2br($str);
 	} else {
@@ -234,7 +236,7 @@ function compare($input) {
 }
 if ($_REQUEST['export']) {
 	$filename = 'book_' . date('Y/m/d_H:i:s') . '.csv';
-	switch ($_POST['method']) {
+	switch ($_POST['exportMethod']) {
 		case '':
 			echo "<script language=javascript>";
 			echo "alert('請選擇正確的匯出條件!');";
@@ -278,7 +280,9 @@ if ($_REQUEST['export']) {
 			break;
 
 		case 'exportSelect':
-			if (empty($_POST['checkbox'])) {
+			$jsonString = str_replace("\\", "", $_POST['jsonString']);
+			$aSelectId = json_decode($jsonString);
+			if (empty($aSelectId)) {
 				echo "<script language=javascript>";
 				echo "alert('請選擇需要的匯出項目!');";
 				echo "document.location.href='index.php';";
@@ -289,7 +293,7 @@ if ($_REQUEST['export']) {
 			header('Content-type: text/x-csv');
 			header("Content-Disposition: attachment; filename=$filename");
 			echo chr(239) . chr(187) . chr(191);//BOM
-			$select = join("' OR `id` = '", $aSelect);
+			$select = join("' OR `id` = '", $aSelectId);
 			$query_Library = "SELECT * FROM `library` WHERE `id` = '" . $select . "' ORDER BY `" . $aSortBy[0] . "` " . $aSortBy[1];
 			$db->bookQuery($query_Library);
 			while ($row = $db->fetch_assoc()) {
@@ -308,25 +312,10 @@ if ($_REQUEST['export']) {
 	header('location: ?uSort=' . $sort . '&page=1');
 	exit;
 } elseif ($_REQUEST['pageButton']) {
+	$page = floor($_POST['num']);
 	if ($_GET['uSort']) {
 		$sort = $_GET['uSort'];
-		$page = floor($_POST['num']);
-		if ($page > $total_pages||$page <= 0) {
-			echo "<script language=javascript>";
-			echo "alert('請輸入正確的數字!');";
-			echo "document.location.href='index.php';";
-			echo "</script>";
-			exit;
-		}
-	header("location: ?uSort=" . $sort . "&page=" . $page);
-	exit;
-	}
-	$page = floor($_POST['num']);
-	if ($page > $total_pages||$page <= 0) {
-		echo "<script language=javascript>";
-		echo "alert('請輸入正確的數字!');";
-		echo "document.location.href='index.php';";
-		echo "</script>";
+		header("location: ?uSort=" . $sort . "&page=" . $page);
 		exit;
 	}
 	header("location: ?page=" . $page);
@@ -340,6 +329,12 @@ if ($_REQUEST['export']) {
 	//limit the number of display
 	$query_limit_RecBoard = $query_RecBoard . " LIMIT " . $startRow_records . ", " . $pageRow_records;
 	$db->bookQuery($query_limit_RecBoard);
+	$bookData = array();
+	$i=0;
+	while ($bookData = $db->fetch_assoc()) {
+		$aBooks[$i] = $bookData;
+		$i++;
+	}
 }
 
 require_once('xhtml/list.html');

@@ -46,10 +46,11 @@ class DB
 	}
 
 	function rawQuery($sql) {
-		if (!mysql_query($sql)) {
+		$query = mysql_query($sql);
+		if (!$query) {
 			return false;
 		}
-		return mysql_query($sql);
+		return $query;
 	}
 
 	function fetch_assoc() {
