@@ -20,11 +20,10 @@ function checkValue(form) {
 		}
 		var json_string = JSON.stringify(bookId);
 		document.getElementById('jsonString').value = json_string;
-	};
+	}
 	alert("確定匯出?");
 	form.submit();
 }
-
 function checkPage() {
 	if (document.pageForm.num.value.trim() == "") {
 		alert("請輸入數字!");
@@ -38,7 +37,6 @@ function checkPage() {
 		}
 	}
 }
-
 function checkPageNum(pageNum) {
 	var num = <?php echo $total_pages;?>;
 	if (pageNum > num || pageNum <= 0) {
