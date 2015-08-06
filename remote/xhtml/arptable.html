@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Arp Table</title>
+		<meta charset="UTF-8">
+	</head>
+	<body>
+		<div>
+			<form method="post">
+				<input type="text" name="ip"/>
+				<input type="text" name="mac"/>
+				<input type="text" name="interface"/>
+				<input type="submit" name="submit" value="送出"/>
+			</form>
+		</div>
+		<div>
+		<?php
+		foreach ($aList as $list) {
+			print_r($list[0]);
+			echo " ";
+			print_r($list[2]);
+			echo " ";
+			print_r($list[4]);
+			echo nl2br("\n");
+		}
+		?>
+		</div>
+	</body>
+</html>

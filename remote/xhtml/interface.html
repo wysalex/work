@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Interface Infomation</title>
+		<meta charset="UTF-8">
+	</head>
+<body>
+	<h1 align="center">Interface Infomation</h1>
+	<table width="1000" align="center">
+		<tr>
+			<td>Interface</td>
+			<td>IP</td>
+			<td>Mask</td>
+			<td>Connect</td>
+			<td>Link</td>
+			<td>Network packets(TX/RX)</td>
+			<td>Network flow(TX/RX)(bytes)</td>
+			<td>Error packets(TX/RX)</td>
+		</tr>
+		<tr>
+			<td><?php echo $ethinfo[0][dev];?></td>
+			<td><?php echo $ethinfo[0][ip];?></td>
+			<td><?php echo $ethinfo[0][mask];?></td>
+			<td><?php echo $ethinfo[0][connect];?></td>
+			<td><?php echo $ethinfo[0][link];?></td>
+			<td><?php echo $ethinfo[0][tx_packets] . "/" . $ethinfo[0][rx_packets];?></td>
+			<td><?php echo $ethinfo[0][tx_flow] . "/" . $ethinfo[0][rx_flow];?></td>
+			<td><?php echo $ethinfo[0][tx_error] . "/" . $ethinfo[0][rx_error];?></td>
+		</tr>
+		<tr>
+			<td><?php echo $ethinfo[1][dev];?></td>
+			<td><?php echo $ethinfo[1][ip];?></td>
+			<td><?php echo $ethinfo[1][mask];?></td>
+			<td><?php echo $ethinfo[1][connect];?></td>
+			<td><?php echo $ethinfo[1][link];?></td>
+			<td><?php echo $ethinfo[1][tx_packets] . "/" . $ethinfo[1][rx_packets];?></td>
+			<td><?php echo $ethinfo[1][tx_flow] . "/" . $ethinfo[1][rx_flow];?></td>
+			<td><?php echo $ethinfo[1][tx_error] . "/" . $ethinfo[1][rx_error];?></td>
+		</tr>
+		<tr>
+			<td><?php echo $ethinfo[2][dev];?></td>
+			<td><?php echo $ethinfo[2][ip];?></td>
+			<td><?php echo $ethinfo[2][mask];?></td>
+			<td><?php echo $ethinfo[2][connect];?></td>
+			<td><?php echo $ethinfo[2][link];?></td>
+			<td><?php echo $ethinfo[2][tx_packets] . "/" . $ethinfo[2][rx_packets];?></td>
+			<td><?php echo $ethinfo[2][tx_flow] . "/" . $ethinfo[2][rx_flow];?></td>
+			<td><?php echo $ethinfo[2][tx_error] . "/" . $ethinfo[2][rx_error];?></td>
+		</tr>
+		<tr>
+			<td><?php echo $ethinfo[3][dev];?></td>
+			<td><?php echo $ethinfo[3][ip];?></td>
+			<td><?php echo $ethinfo[3][mask];?></td>
+			<td><?php echo $ethinfo[3][connect];?></td>
+			<td><?php echo $ethinfo[3][link];?></td>
+			<td><?php echo $ethinfo[3][tx_packets] . "/" . $ethinfo[3][rx_packets];?></td>
+			<td><?php echo $ethinfo[3][tx_flow] . "/" . $ethinfo[3][rx_flow];?></td>
+			<td><?php echo $ethinfo[3][tx_error] . "/" . $ethinfo[3][rx_error];?></td>
+		</tr>
+	</table>
+</body>
+</html>
