@@ -3,27 +3,58 @@
 	<head>
 		<title>Arp Table</title>
 		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="style/table_style.css" />
+		<script language="javascript" type="text/javascript" src="js/format_check.js"></script>
 	</head>
 	<body>
-		<div>
-			<form method="post">
-				<input type="text" name="ip"/>
-				<input type="text" name="mac"/>
-				<input type="text" name="interface"/>
-				<input type="submit" name="submit" value="送出"/>
+		<h1 align="center">Arp Table</h1><br>
+		<div class="css_table" align="center"  style="border: #000 2px solid; padding: 10px 10px;">
+			<div class="css_tr" style="">
+				<div class="css_td" align="left">Set up static ARP</div>
+			</div>
+			<form action="" method="post" name="setForm" onsubmit="return checkForm();">
+				<div class="css_tr">
+					<div class="css_td" align="left">IP</div>
+					<div class="css_td"><input type="text" name="setIP" style="width: 120px"/></div>
+				</div>
+				<div class="css_tr">
+					<div class="css_td" align="left">MAC</div>
+					<div class="css_td"><input type="text" name="setMac" style="width: 120px"/></div>
+				</div>
+				<div class="css_tr">
+					<div class="css_td" align="left">Interface</div>
+					<div class="css_td"><input type="text" name="setInterface" style="width: 120px"/></div>
+				</div>
+				<div class="css_tr">
+					<input type="hidden" name="action" id="action" value="setArp"/>
+					<input type="submit" name="submit" value="set"/>
+				</div>
+				<input type="hidden" name="devInterface" value="<?php echo $eth_list;?>"/>
 			</form>
 		</div>
-		<div>
-		<?php
-		foreach ($aList as $list) {
-			print_r($list[0]);
-			echo " ";
-			print_r($list[2]);
-			echo " ";
-			print_r($list[4]);
-			echo nl2br("\n");
-		}
-		?>
+		<br><br><br>
+		<div class="css_table" align="center"  style="border:#000 1px solid">
+			<div class="css_tr" align="center">
+				<div class="css_td" style="width: 125px; border: #000 1px solid;">IP</div>
+				<div class="css_td" style="width: 135px; border: #000 1px solid;">MAC</div>
+				<div class="css_td" style="width: 70px; border: #000 1px solid;">Interface</div>
+				<div class="css_td" style="width: 70px; border: #000 1px solid;">Delete</div>
+			</div>
+			<?php foreach ($aList as $list) {?>
+			<div class="css_tr">
+				<div class="css_td" style="border: #000 1px solid" align="left"><?php echo $list[0];?></div>
+				<div class="css_td" style="border: #000 1px solid" align="left"><?php echo $list[2];?></div>
+				<div class="css_td" style="border: #000 1px solid" align="center"><?php echo $list[4];?></div>
+				<div class="css_td" style="border: #000 1px solid" align="center">
+					<form action="" method="post" name="delForm">
+						<input type="hidden" name="delIP" value="<?php echo $list[0];?>"/>
+						<input type="hidden" name="delInterface" value="<?php echo $list[4];?>"/>
+						<input type="hidden" name="action" id="action" value="delArp"/>
+						<input type="submit" name="submit" value="Delete"/>
+					</form>
+				</div>
+			</div>
+			<?php }?>
 		</div>
 	</body>
 </html>

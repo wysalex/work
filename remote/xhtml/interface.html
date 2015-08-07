@@ -3,60 +3,46 @@
 	<head>
 		<title>Interface Infomation</title>
 		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="style/table_style.css" />
 	</head>
 <body>
 	<h1 align="center">Interface Infomation</h1>
-	<table width="1000" align="center">
-		<tr>
-			<td>Interface</td>
-			<td>IP</td>
-			<td>Mask</td>
-			<td>Connect</td>
-			<td>Link</td>
-			<td>Network packets(TX/RX)</td>
-			<td>Network flow(TX/RX)(bytes)</td>
-			<td>Error packets(TX/RX)</td>
-		</tr>
-		<tr>
-			<td><?php echo $ethinfo[0][dev];?></td>
-			<td><?php echo $ethinfo[0][ip];?></td>
-			<td><?php echo $ethinfo[0][mask];?></td>
-			<td><?php echo $ethinfo[0][connect];?></td>
-			<td><?php echo $ethinfo[0][link];?></td>
-			<td><?php echo $ethinfo[0][tx_packets] . "/" . $ethinfo[0][rx_packets];?></td>
-			<td><?php echo $ethinfo[0][tx_flow] . "/" . $ethinfo[0][rx_flow];?></td>
-			<td><?php echo $ethinfo[0][tx_error] . "/" . $ethinfo[0][rx_error];?></td>
-		</tr>
-		<tr>
-			<td><?php echo $ethinfo[1][dev];?></td>
-			<td><?php echo $ethinfo[1][ip];?></td>
-			<td><?php echo $ethinfo[1][mask];?></td>
-			<td><?php echo $ethinfo[1][connect];?></td>
-			<td><?php echo $ethinfo[1][link];?></td>
-			<td><?php echo $ethinfo[1][tx_packets] . "/" . $ethinfo[1][rx_packets];?></td>
-			<td><?php echo $ethinfo[1][tx_flow] . "/" . $ethinfo[1][rx_flow];?></td>
-			<td><?php echo $ethinfo[1][tx_error] . "/" . $ethinfo[1][rx_error];?></td>
-		</tr>
-		<tr>
-			<td><?php echo $ethinfo[2][dev];?></td>
-			<td><?php echo $ethinfo[2][ip];?></td>
-			<td><?php echo $ethinfo[2][mask];?></td>
-			<td><?php echo $ethinfo[2][connect];?></td>
-			<td><?php echo $ethinfo[2][link];?></td>
-			<td><?php echo $ethinfo[2][tx_packets] . "/" . $ethinfo[2][rx_packets];?></td>
-			<td><?php echo $ethinfo[2][tx_flow] . "/" . $ethinfo[2][rx_flow];?></td>
-			<td><?php echo $ethinfo[2][tx_error] . "/" . $ethinfo[2][rx_error];?></td>
-		</tr>
-		<tr>
-			<td><?php echo $ethinfo[3][dev];?></td>
-			<td><?php echo $ethinfo[3][ip];?></td>
-			<td><?php echo $ethinfo[3][mask];?></td>
-			<td><?php echo $ethinfo[3][connect];?></td>
-			<td><?php echo $ethinfo[3][link];?></td>
-			<td><?php echo $ethinfo[3][tx_packets] . "/" . $ethinfo[3][rx_packets];?></td>
-			<td><?php echo $ethinfo[3][tx_flow] . "/" . $ethinfo[3][rx_flow];?></td>
-			<td><?php echo $ethinfo[3][tx_error] . "/" . $ethinfo[3][rx_error];?></td>
-		</tr>
-	</table>
+	<div class="css_table" style="border: #000 1px solid">
+		<div class="css_tr" align="center">
+			<div class="css_td" style="width: 70px; border:#000 1px solid;">Interface</div>
+			<div class="css_td" style="width: 125px; border:#000 1px solid;">IP</div>
+			<div class="css_td" style="width: 125px; border:#000 1px solid;">Mask</div>
+			<div class="css_td" style="width: 65px; border:#000 1px solid;">Connect</div>
+			<div class="css_td" style="width: 40px; border:#000 1px solid;">Link</div>
+			<div class="css_td" style="width: 175px; border:#000 1px solid;">Network packets(TX/RX)</div>
+			<div class="css_td" style="width: 205px; border:#000 1px solid;">Network flow(TX/RX)(bytes)</div>
+			<div class="css_td" style="width: 155px; border:#000 1px solid;">Error packets(TX/RX)</div>
+		</div>
+		<?php foreach($aEthInfo as $info) {?>
+		<?php if ("OFF" == $info["ip"]) {?>
+		<div class="css_tr" align="center">
+			<div class="css_td" style="border: #000 1px solid"><?php echo $info["dev"];?></div>
+			<div class="css_td" style="border: #000 1px solid">OFF</div>
+			<div class="css_td" style="border: #000 1px solid">OFF</div>
+			<div class="css_td" style="border: #000 1px solid">down</div>
+			<div class="css_td" style="border: #000 1px solid">no</div>
+			<div class="css_td" style="border: #000 1px solid">0 / 0</div>
+			<div class="css_td" style="border: #000 1px solid">0 / 0</div>
+			<div class="css_td" style="border: #000 1px solid">0 / 0</div>
+		</div>
+		<?php } else {?>
+		<div class="css_tr">
+			<div class="css_td" style="border: #000 1px solid" align="center"><?php echo $info["dev"];?></div>
+			<div class="css_td" style="border: #000 1px solid"><?php echo $info["ip"];?></div>
+			<div class="css_td" style="border: #000 1px solid"><?php echo $info["mask"];?></div>
+			<div class="css_td" style="border: #000 1px solid" align="center"><?php echo $info["connect"];?></div>
+			<div class="css_td" style="border: #000 1px solid" align="center"><?php echo $info["link"];?></div>
+			<div class="css_td" style="border: #000 1px solid" align="center"><?php echo $info["tx_packets"] . " / " . $info["rx_packets"];?></div>
+			<div class="css_td" style="border: #000 1px solid" align="center"><?php echo $info["tx_flow"] . " / " . $info["rx_flow"];?></div>
+			<div class="css_td" style="border: #000 1px solid" align="center"><?php echo $info["tx_error"] . " / " . $info["rx_error"];?></div>
+		</div>
+		<?php }?>
+		<?php }?>
+	</div>
 </body>
 </html>

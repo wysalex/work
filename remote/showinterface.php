@@ -1,29 +1,30 @@
 <?php
-$ethinfo = get_ethinfo();
+
+$aEthInfo = get_ethinfo();
 
 function get_ethinfo() {
-	if (is_file("/ram/tmp/wanstatus")) {
-		$wanstatus = file("/ram/tmp/wanstatus");
+	$dev = array('eth0', 'eth1', 'eth2', 'eth3');
+	$aMsg = array();
+	if (file_exists("/ram/tmp/wanstatus")) {
+		exec("cat /ram/tmp/wanstatus", $aMsg);
 	} else {
-		$wanstatus = array(
-			0 => "WAN1=OFF=OFF",
-			1 => "WAN2=OFF=OFF",
-			2 => "WAN3=OFF=OFF",
-			3 => "WAN4=OFF=OFF",
-			4 => "WAN5=OFF=OFF"
+		$aMsg = array(
+			0 => 'WAN1=OFF=OFF',
+			1 => 'WAN2=OFF=OFF',
+			2 => 'WAN3=OFF=OFF',
+			3 => 'WAN4=OFF=OFF',
+			4 => 'WAN5=OFF=OFF'
 		);
 	}
-	$dev = array("eth0" , "eth1" , "eth2" , "eth3");
-	$msg0 = array();
 	for ($i = 0; $i < count($dev); $i++) {
-		if ($dev[$i] == "eth0") {
+		if ($dev[$i] == 'eth0') {
 			$info[$i]['dev'] = $dev[$i];
 			$dev_ip = get_landev($dev[$i]);
-			$info[$i]['ip'] = $dev_ip[ip];
+			$info[$i]['ip'] = $dev_ip['ip'];
 			$info[$i]['mask'] = get_maskdev($dev[$i]);
-			$xx = get_ethlink($dev[$i]);
-			$info[$i]['connect'] = ($xx == "yes") ? "up" : "down";
-			$info[$i]['link'] = $xx;
+			$link = get_ethlink($dev[$i]);
+			$info[$i]['connect'] = ($link == 'yes') ? 'up' : 'down';
+			$info[$i]['link'] = $link;
 			$ethFlow = fetchRxTx($dev[$i]);
 			$info[$i]['tx_packets'] = $ethFlow['TxPack'];
 			$info[$i]['rx_packets'] = $ethFlow['RxPack'];
@@ -31,14 +32,14 @@ function get_ethinfo() {
 			$info[$i]['rx_flow'] = $ethFlow['RxFlow'];
 			$info[$i]['tx_error'] = $ethFlow['TxError'];
 			$info[$i]['rx_error'] = $ethFlow['RxError'];
-		} elseif ($dev[$i] == "eth1") {
+		} elseif ($dev[$i] == 'eth1') {
+			$a = explode('=', trim($aMsg[0]));
 			$info[$i]['dev'] = $dev[$i];
-			$dev_ip = get_landev($dev[$i]);
-			$info[$i]['ip'] = $dev_ip[ip];
+			$info[$i]['ip'] = trim($a[2]);
 			$info[$i]['mask'] = get_maskdev($dev[$i]);
-			$xx = get_ethlink($dev[$i]);
-			$info[$i]['connect'] = ($xx == "yes") ? "up" : "down";
-			$info[$i]['link'] = $xx;
+			$info[$i]['connect'] = ($a[1] == 'OFF') ? 'down' : 'up';
+			$link = get_ethlink($dev[$i]);
+			$info[$i]['link'] = $link;
 			$ethFlow = fetchRxTx($dev[$i]);
 			$info[$i]['tx_packets'] = $ethFlow['TxPack'];
 			$info[$i]['rx_packets'] = $ethFlow['RxPack'];
@@ -46,14 +47,20 @@ function get_ethinfo() {
 			$info[$i]['rx_flow'] = $ethFlow['RxFlow'];
 			$info[$i]['tx_error'] = $ethFlow['TxError'];
 			$info[$i]['rx_error'] = $ethFlow['RxError'];
-		} elseif ($dev[$i] == "eth2") {
+		} elseif ($dev[$i] == 'eth2') {
+			foreach ($aMsg as $line) {
+				if (strstr($line, 'WAN2')) {
+					$devline = $line;
+					break;
+				}
+			}
+			$a = explode('=', trim($devline));
 			$info[$i]['dev'] = $dev[$i];
-			$dev_ip = get_landev($dev[$i]);
-			$info[$i]['ip'] = $dev_ip[ip];
+			$info[$i]['ip'] = trim($a[2]);
 			$info[$i]['mask'] = get_maskdev($dev[$i]);
-			$xx = get_ethlink($dev[$i]);
-			$info[$i]['connect'] = ($xx == "yes") ? "up" : "down";
-			$info[$i]['link'] = $xx;
+			$info[$i]['connect'] = ($a[1] == 'OFF') ? 'down' : 'up';
+			$link = get_ethlink($dev[$i]);
+			$info[$i]['link'] = $link;
 			$ethFlow = fetchRxTx($dev[$i]);
 			$info[$i]['tx_packets'] = $ethFlow['TxPack'];
 			$info[$i]['rx_packets'] = $ethFlow['RxPack'];
@@ -61,14 +68,14 @@ function get_ethinfo() {
 			$info[$i]['rx_flow'] = $ethFlow['RxFlow'];
 			$info[$i]['tx_error'] = $ethFlow['TxError'];
 			$info[$i]['rx_error'] = $ethFlow['RxError'];
-		} elseif ($dev[$i] == "eth3") {
+		} elseif ($dev[$i] == 'eth3') {
 			$info[$i]['dev'] = $dev[$i];
 			$dev_ip = get_landev($dev[$i]);
-			$info[$i]['ip'] = $dev_ip[ip];
+			$info[$i]['ip'] = $dev_ip['ip'];
 			$info[$i]['mask'] = get_maskdev($dev[$i]);
-			$xx = get_ethlink($dev[$i]);
-			$info[$i]['connect'] = ($xx == "yes") ? "up" : "down";
-			$info[$i]['link'] = $xx;
+			$link = get_ethlink($dev[$i]);
+			$info[$i]['connect'] = ($link == 'yes') ? 'up' : 'down';
+			$info[$i]['link'] = $link;
 			$ethFlow = fetchRxTx($dev[$i]);
 			$info[$i]['tx_packets'] = $ethFlow['TxPack'];
 			$info[$i]['rx_packets'] = $ethFlow['RxPack'];
@@ -82,12 +89,9 @@ function get_ethinfo() {
 }
 
 function get_landev($device) {
-	$cmd1 = 'cat /etc/sysconfig/network-devices/ifconfig.'.$device.'/ipv4';
-	$cmd2 = 'ifconfig '.$device;
+	$cmd1 = 'cat /etc/sysconfig/network-devices/ifconfig.' . $device . '/ipv4';
 	exec($cmd1, $msg1);
-	exec($cmd2, $msg2);
-	$info["onboot"] = trim(str_replace('ONBOOT=','',$msg1[0]));
-	$devip = trim(str_replace('IP=','',$msg1[2]));//echo $devip;
+	$devip = trim(str_replace('IP=', '', $msg1[2]));
 	if ($devip == null || $devip == '#') {
 		$info['ip'] = 'OFF';
 	} else {
@@ -97,7 +101,7 @@ function get_landev($device) {
 }
 
 function get_maskdev($device) {
-	$cmd = 'ifconfig '.$device;
+	$cmd = 'ifconfig ' . $device;
 	exec($cmd, $msg);
 	$str = trim(strstr_array($msg, 'Mask'));
 	$str_mask = strstr($str, 'Mask');
@@ -105,33 +109,36 @@ function get_maskdev($device) {
 	return $acolli[1];
 }
 
-function get_connect() {
-
-}
-
-function get_ethlink($dev) {//Network cable
+function get_ethlink($dev) {//Network cable link
 	exec('/bin/cat /sys/class/net/' . $dev . '/carrier', $retCont, $retCode);
 	if ($retCode == 0 && $retCont[0] == '1') {
-		return "yes";
+		return 'yes';
 	} else {
-		return "no";
+		return 'no';
 	}
 }
 
 function fetchRxTx($dev) {
 	exec('/sbin/ip -s link show ' . $dev, $ret);
 
-	$arx = listStringSplit(trim($ret[3]));
-	$rxflow = trim($arx[0]);
-	$rxpack = trim($arx[1]);
-	$rxerror = trim($arx[2]);
+	$aRx = listStringSplit(trim($ret[3]));
+	$rxflow = trim($aRx[0]);
+	$rxpack = trim($aRx[1]);
+	$rxerror = trim($aRx[2]);
 
-	$atx = listStringSplit(trim($ret[5]));
-	$txflow = trim($atx[0]);
-	$txpack = trim($atx[1]);
-	$txerror = trim($arx[2]);
+	$aTx = listStringSplit(trim($ret[5]));
+	$txflow = trim($aTx[0]);
+	$txpack = trim($aTx[1]);
+	$txerror = trim($aTx[2]);
 
-	$totalRxTx = array('RxPack' => $rxpack, 'TxPack' => $txpack, 'RxFlow' => $rxflow, 'TxFlow' => $txflow, 'RxError' => $rxerror, 'TxError' => $txerror,);
+	$totalRxTx = array(
+		'RxPack' => $rxpack,
+		'TxPack' => $txpack,
+		'RxFlow' => $rxflow,
+		'TxFlow' => $txflow,
+		'RxError' => $rxerror,
+		'TxError' => $txerror,
+	);
 
 	return $totalRxTx;
 }
@@ -148,7 +155,7 @@ function strstr_array($haystack, $needle) {
 }
 
 function listStringSplit($sList) {
-	$aList = preg_split("/[\s,]+/", $sList , -1, PREG_SPLIT_NO_EMPTY);
+	$aList = preg_split("/[\s,]+/", $sList, -1, PREG_SPLIT_NO_EMPTY);
 	return $aList;
 }
 

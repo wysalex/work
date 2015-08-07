@@ -1,0 +1,10 @@
+.css_table {
+	display: table;
+	margin: 0px auto;
+}
+.css_tr {
+	display: table-row;
+}
+.css_td {
+	display: table-cell;
+}
