@@ -1,10 +1,81 @@
 .css_table {
 	display: table;
-	margin: 0px auto;
+	margin: 0 auto;
+	border-collapse: collapse;
 }
+
 .css_tr {
 	display: table-row;
 }
+
 .css_td {
 	display: table-cell;
+}
+
+.css_tr_color:nth-child(odd) {
+	background: #dedede;
+	display: table-row;
+}
+
+.css_tr_color:nth-child(even) {
+	background: #fafafa;
+	display: table-row;
+}
+
+.css_tr_color:hover {
+    background: #e2fefe;
+}
+
+.css_td_border {
+	display: table-cell;
+	border: 1px solid #b7b7b7;
+}
+
+.css_tr_border {
+	display: table-row;
+	border: 1px solid #b7b7b7;
+}
+
+.css_hr {
+	border: 0;
+	height: 2px;
+	background-color: #d4d4d4;
+}
+
+.css_tr div{
+	margin: 0;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-left: 3px;
+	padding-right: 3px;
+	letter-spacing: 1px;
+}
+
+.css_tr_color div{
+	margin: 0;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-left: 3px;
+	padding-right: 3px;
+	letter-spacing: 1px;
+}
+
+.css_button {
+	border: 2px black none;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	padding: 3px 8px 3px 8px;
+	text-decoration: none;
+	display: inline-block;
+	color: #000;
+}
+
+.css_button:hover {
+	border: 1px solid #ff9c9c;
+	background-color: #ff9c9c;
+}
+
+div input:focus {
+	background: #fefeda;
 }

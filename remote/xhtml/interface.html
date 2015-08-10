@@ -7,39 +7,39 @@
 	</head>
 <body>
 	<h1 align="center">Interface Infomation</h1>
-	<div class="css_table" style="border: #000 1px solid">
-		<div class="css_tr" align="center">
-			<div class="css_td" style="width: 70px; border:#000 1px solid;">Interface</div>
-			<div class="css_td" style="width: 125px; border:#000 1px solid;">IP</div>
-			<div class="css_td" style="width: 125px; border:#000 1px solid;">Mask</div>
-			<div class="css_td" style="width: 65px; border:#000 1px solid;">Connect</div>
-			<div class="css_td" style="width: 40px; border:#000 1px solid;">Link</div>
-			<div class="css_td" style="width: 175px; border:#000 1px solid;">Network packets(TX/RX)</div>
-			<div class="css_td" style="width: 205px; border:#000 1px solid;">Network flow(TX/RX)(bytes)</div>
-			<div class="css_td" style="width: 155px; border:#000 1px solid;">Error packets(TX/RX)</div>
+	<div class="css_table">
+		<div class="css_tr" align="center" style="border: 1px solid #b7b7b7;">
+			<div class="css_td" style="width: 80px; font-weight: bold; border: 1px solid #b7b7b7;">Interface</div>
+			<div class="css_td" style="width: 140px; font-weight: bold; border: 1px solid #b7b7b7;">IP</div>
+			<div class="css_td" style="width: 140px; font-weight: bold; border: 1px solid #b7b7b7;">Mask</div>
+			<div class="css_td" style="width: 75px; font-weight: bold; border: 1px solid #b7b7b7;">Connect</div>
+			<div class="css_td" style="width: 50px; font-weight: bold; border: 1px solid #b7b7b7;">Link</div>
+			<div class="css_td" style="width: 220px; font-weight: bold; border: 1px solid #b7b7b7;">Network packets(TX/RX)</div>
+			<div class="css_td" style="width: 250px; font-weight: bold; border: 1px solid #b7b7b7;">Network flow(TX/RX)(bytes)</div>
+			<div class="css_td" style="width: 185px; font-weight: bold; border: 1px solid #b7b7b7;">Error packets(TX/RX)</div>
 		</div>
 		<?php foreach($aEthInfo as $info) {?>
 		<?php if ("OFF" == $info["ip"]) {?>
-		<div class="css_tr" align="center">
-			<div class="css_td" style="border: #000 1px solid"><?php echo $info["dev"];?></div>
-			<div class="css_td" style="border: #000 1px solid">OFF</div>
-			<div class="css_td" style="border: #000 1px solid">OFF</div>
-			<div class="css_td" style="border: #000 1px solid">down</div>
-			<div class="css_td" style="border: #000 1px solid">no</div>
-			<div class="css_td" style="border: #000 1px solid">0 / 0</div>
-			<div class="css_td" style="border: #000 1px solid">0 / 0</div>
-			<div class="css_td" style="border: #000 1px solid">0 / 0</div>
+		<div class="css_tr" align="center" style="border: 1px solid #b7b7b7;" onMouseOver="this.style.backgroundColor='#EEEEEE';" onMouseOut="this.style.backgroundColor='#FFFFFF';">
+			<div class="css_td" style="border: 1px solid #b7b7b7;"><?php echo $info["dev"];?></div>
+			<div class="css_td" style="border: 1px solid #b7b7b7;">OFF</div>
+			<div class="css_td" style="border: 1px solid #b7b7b7;">OFF</div>
+			<div class="css_td" style="border: 1px solid #b7b7b7;">down</div>
+			<div class="css_td" style="border: 1px solid #b7b7b7;">no</div>
+			<div class="css_td" style="border: 1px solid #b7b7b7;">0 / 0</div>
+			<div class="css_td" style="border: 1px solid #b7b7b7;">0 / 0</div>
+			<div class="css_td" style="border: 1px solid #b7b7b7;">0 / 0</div>
 		</div>
 		<?php } else {?>
-		<div class="css_tr">
-			<div class="css_td" style="border: #000 1px solid" align="center"><?php echo $info["dev"];?></div>
-			<div class="css_td" style="border: #000 1px solid"><?php echo $info["ip"];?></div>
-			<div class="css_td" style="border: #000 1px solid"><?php echo $info["mask"];?></div>
-			<div class="css_td" style="border: #000 1px solid" align="center"><?php echo $info["connect"];?></div>
-			<div class="css_td" style="border: #000 1px solid" align="center"><?php echo $info["link"];?></div>
-			<div class="css_td" style="border: #000 1px solid" align="center"><?php echo $info["tx_packets"] . " / " . $info["rx_packets"];?></div>
-			<div class="css_td" style="border: #000 1px solid" align="center"><?php echo $info["tx_flow"] . " / " . $info["rx_flow"];?></div>
-			<div class="css_td" style="border: #000 1px solid" align="center"><?php echo $info["tx_error"] . " / " . $info["rx_error"];?></div>
+		<div class="css_tr" style="border: 1px solid #b7b7b7;" onMouseOver="this.style.backgroundColor='#EEEEEE';" onMouseOut="this.style.backgroundColor='#FFFFFF';">
+			<div class="css_td" align="center" style="border: 1px solid #b7b7b7;"><?php echo $info["dev"];?></div>
+			<div class="css_td" style="border: 1px solid #b7b7b7;"><?php echo $info["ip"];?></div>
+			<div class="css_td" style="border: 1px solid #b7b7b7;"><?php echo $info["mask"];?></div>
+			<div class="css_td" align="center" style="border: 1px solid #b7b7b7;"><?php echo $info["connect"];?></div>
+			<div class="css_td" align="center" style="border: 1px solid #b7b7b7;"><?php echo $info["link"];?></div>
+			<div class="css_td" align="center" style="border: 1px solid #b7b7b7;"><?php echo $info["tx_packets"] . " / " . $info["rx_packets"];?></div>
+			<div class="css_td" align="center" style="border: 1px solid #b7b7b7;"><?php echo $info["tx_flow"] . " / " . $info["rx_flow"];?></div>
+			<div class="css_td" align="center" style="border: 1px solid #b7b7b7;"><?php echo $info["tx_error"] . " / " . $info["rx_error"];?></div>
 		</div>
 		<?php }?>
 		<?php }?>

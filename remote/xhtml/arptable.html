@@ -1,60 +1,101 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Arp Table</title>
+		<title>ARP Table</title>
 		<meta charset="UTF-8">
 		<link rel="stylesheet" type="text/css" href="style/table_style.css" />
 		<script language="javascript" type="text/javascript" src="js/format_check.js"></script>
 	</head>
 	<body>
-		<h1 align="center">Arp Table</h1><br>
-		<div class="css_table" align="center"  style="border: #000 2px solid; padding: 10px 10px;">
-			<div class="css_tr" style="">
-				<div class="css_td" align="left">Set up static ARP</div>
-			</div>
-			<form action="" method="post" name="setForm" onsubmit="return checkForm();">
+		<h1 align="center">ARP Table</h1>
+		<div class="css_hr" style="width: 600px; margin: 0 auto;" align="center"></div><br>
+		<div class="css_table">
+			<form action="" method="post" name="sForm">
 				<div class="css_tr">
-					<div class="css_td" align="left">IP</div>
-					<div class="css_td"><input type="text" name="setIP" style="width: 120px"/></div>
+					<div class="css_td"><input type="text" name="s_condition"/></div>
+					<div class="css_td">
+						<select name="search" style="width: 124px;">
+							<option value="">請選擇</option>
+							<option value="IP">IP</option>
+							<option value="MAC">MAC</option>
+							<option value="ETH">interface</option>
+						</select>
+					</div>
+					<div class="css_td"><input type="submit" name="submit" value="搜尋" class="css_button" style="width: 50px; height: 25px; cursor:pointer;"/></div>
 				</div>
-				<div class="css_tr">
-					<div class="css_td" align="left">MAC</div>
-					<div class="css_td"><input type="text" name="setMac" style="width: 120px"/></div>
-				</div>
-				<div class="css_tr">
-					<div class="css_td" align="left">Interface</div>
-					<div class="css_td"><input type="text" name="setInterface" style="width: 120px"/></div>
-				</div>
-				<div class="css_tr">
-					<input type="hidden" name="action" id="action" value="setArp"/>
-					<input type="submit" name="submit" value="set"/>
-				</div>
-				<input type="hidden" name="devInterface" value="<?php echo $eth_list;?>"/>
 			</form>
 		</div>
-		<br><br><br>
-		<div class="css_table" align="center"  style="border:#000 1px solid">
-			<div class="css_tr" align="center">
-				<div class="css_td" style="width: 125px; border: #000 1px solid;">IP</div>
-				<div class="css_td" style="width: 135px; border: #000 1px solid;">MAC</div>
-				<div class="css_td" style="width: 70px; border: #000 1px solid;">Interface</div>
-				<div class="css_td" style="width: 70px; border: #000 1px solid;">Delete</div>
+		<br><div class="css_hr" style="width: 600px; margin: 0 auto;" align="center"></div><br>
+		<div class="css_table">
+			<div class="css_tr" align="center" style="background: #fefeee">
+				<div class="css_td_border" style="width: 140px; font-weight: bold;">IP</div>
+				<div class="css_td_border" style="width: 155px; font-weight: bold;">MAC</div>
+				<div class="css_td_border" style="width: 80px; font-weight: bold;">Interface</div>
+				<div class="css_td_border"></div>
 			</div>
-			<?php foreach ($aList as $list) {?>
-			<div class="css_tr">
-				<div class="css_td" style="border: #000 1px solid" align="left"><?php echo $list[0];?></div>
-				<div class="css_td" style="border: #000 1px solid" align="left"><?php echo $list[2];?></div>
-				<div class="css_td" style="border: #000 1px solid" align="center"><?php echo $list[4];?></div>
-				<div class="css_td" style="border: #000 1px solid" align="center">
+			<?php foreach ($aList_arp as $arp) {?>
+			<?php if (is_array($arp)) {?>
+			<div class="css_tr_color">
+				<div class="css_td_border" style="width: 140px;" align="left"><?php echo $arp[0];?></div>
+				<div class="css_td_border" style="width: 155px;" align="left"><?php echo $arp[2];?></div>
+				<div class="css_td_border" style="width: 80px;" align="center"><?php echo $arp[4];?></div>
+				<div class="css_td_border" style="width: 55px;" align="center">
 					<form action="" method="post" name="delForm">
-						<input type="hidden" name="delIP" value="<?php echo $list[0];?>"/>
-						<input type="hidden" name="delInterface" value="<?php echo $list[4];?>"/>
+						<input type="hidden" name="delIP" value="<?php echo $arp[0];?>"/>
+						<input type="hidden" name="delInterface" value="<?php echo $arp[4];?>"/>
 						<input type="hidden" name="action" id="action" value="delArp"/>
-						<input type="submit" name="submit" value="Delete"/>
+						<input type="submit" name="submit" value="刪除" onclick="return confirm('確定刪除？');" class="css_button" style="width: 50px; height: 25px; cursor: pointer;"/>
 					</form>
 				</div>
 			</div>
+			<?php } else {?>
+			<div class="css_tr_color">
+				<div class="css_td_border" style="width: 140px;" align="left"><?php echo $aList_arp[0];?></div>
+				<div class="css_td_border" style="width: 155px;" align="left"><?php echo $aList_arp[2];?></div>
+				<div class="css_td_border" style="width: 80px;" align="center"><?php echo $aList_arp[4];?></div>
+				<div class="css_td_border" style="width: 55px;" align="center">
+					<form action="" method="post" name="delForm">
+						<input type="hidden" name="delIP" value="<?php echo $aList_arp[0];?>"/>
+						<input type="hidden" name="delInterface" value="<?php echo $aList_arp[4];?>"/>
+						<input type="hidden" name="action" id="action" value="delArp"/>
+						<input type="submit" name="submit" value="刪除" onclick="return confirm('確定刪除？');" class="css_button" style="width: 50px; height: 25px; cursor: pointer;"/>
+					</form>
+				</div>
+			</div>
+			<?php break;?>
 			<?php }?>
+			<?php }?>
+		</div>
+		<br><div class="css_hr" style="width: 600px; margin: 0 auto;" align="center"></div><br>
+		<div class="css_table">
+			<div class="css_tr">
+				<h2 align="center">Set up static ARP</h2>
+			</div>
+			<form action="" method="post" name="setForm" onsubmit="return checkForm();">
+				<div class="css_tr">
+					<div class="css_td" align="right" style="font-weight: bold;">IP：</div>
+					<div class="css_td"><input type="text" name="setIP" style="width: 120px"/></div>
+				</div>
+				<div class="css_tr">
+					<div class="css_td" align="right" style="font-weight: bold;">MAC：</div>
+					<div class="css_td"><input type="text" name="setMac" style="width: 120px"/></div>
+				</div>
+				<div class="css_tr">
+					<div class="css_td" align="right" style="font-weight: bold;">Interface：</div>
+					<div class="css_td">
+						<select name="setInterface" style="width: 124px;">
+							<option value="">請選擇</option>
+							<option value="eth0">eth0</option>
+							<option value="eth3">eth3</option>
+						</select>
+					</div>
+				</div>
+				<div class="css_tr" align="right">
+					<input type="hidden" name="action" id="action" value="setArp"/>
+					<div class="css_td"></div>
+					<div class="css_td"><input type="submit" name="submit" value="設定" class="css_button" style="width: 50px; height: 25px; cursor:pointer;"/></div>
+				</div>
+			</form>
 		</div>
 	</body>
 </html>

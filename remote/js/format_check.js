@@ -1,36 +1,29 @@
 function checkForm() {
-	if (document.setForm.setIP.value == "") {
+	if (document.setForm.setIP.value.trim() == "") {
 		alert("請輸入IP");
 		document.setForm.setIP.focus();
 		return false;
 	}
-	if (document.setForm.setIP.value != "") {
+	if (document.setForm.setIP.value.trim() != "") {
 		if (!check_ip(document.setForm.setIP)) {
 			document.setForm.setIP.focus();
 			return false;
 		}
 	}
-	if (document.setForm.setMac.value == "") {
+	if (document.setForm.setMac.value.trim() == "") {
 		alert("請輸入MAC");
 		document.setForm.setMac.focus();
 		return false;
 	}
-	if (document.setForm.setMac.value != "") {
+	if (document.setForm.setMac.value.trim() != "") {
 		if (!check_mac(document.setForm.setMac)) {
 			document.setForm.setMac.focus();
 			return false;
 		}
 	}
 	if (document.setForm.setInterface.value == "") {
-		alert("請輸入Interface");
-		document.setForm.setInterface.focus();
+		alert("請選擇Interface");
 		return false;
-	}
-	if (document.setForm.setInterface.value != "") {
-		if (!check_eth(document.setForm.setInterface)) {
-			document.setForm.setInterface.focus();
-			return false;
-		}
 	}
 }
 
@@ -40,7 +33,7 @@ function check_ip(ip_str) {
 	if (!ipCheck.test(ip_str.value)) {
 		alert("IP格式錯誤");
 		return false;
-	} else if (num[0] > 255 || num[2] > 255 || num[3] > 255 || num[4] > 255) {
+	} else if (num[0] > 254 || num[1] > 254 || num[2] > 254 || num[3] > 254 || 0,0,0,0 == num[0]) {
 		alert("IP位址錯誤");
 		return false;
 	}
@@ -58,19 +51,4 @@ function check_mac(mac_str) {
 		return false;
 	}
 	return true;
-}
-
-function check_eth(eth_str) {
-	var aDevEth = document.setForm.devInterface.value.split(",");
-//	document.write(devEth);
-	var flag = aDevEth.some(function (value) {
-		return value == eth_str.value ? true : false;
-	});
-	alert("沒有這個設備");
-	return flag;
-//var arr = ["jack", "john", "may", "su", "Ada"];
-//var flag = arr.some(function (value, index, array) {
-//return value == "may" ? true : false;
-//});
-//  flag 為 true
 }
