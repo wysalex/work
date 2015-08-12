@@ -1,28 +1,29 @@
 function checkForm() {
-	if (document.setForm.setIP.value.trim() == "") {
+	if (document.setForm.setIP.value.trim() === "") {
 		alert("請輸入IP");
 		document.setForm.setIP.focus();
 		return false;
 	}
-	if (document.setForm.setIP.value.trim() != "") {
+	if (document.setForm.setIP.value.trim() !== "") {
 		if (!check_ip(document.setForm.setIP)) {
 			document.setForm.setIP.focus();
 			return false;
 		}
 	}
-	if (document.setForm.setMac.value.trim() == "") {
+	if (document.setForm.setMac.value.trim() === "") {
 		alert("請輸入MAC");
 		document.setForm.setMac.focus();
 		return false;
 	}
-	if (document.setForm.setMac.value.trim() != "") {
+	if (document.setForm.setMac.value.trim() !== "") {
 		if (!check_mac(document.setForm.setMac)) {
 			document.setForm.setMac.focus();
 			return false;
 		}
 	}
-	if (document.setForm.setInterface.value == "") {
+	if (document.setForm.setInterface.value === "") {
 		alert("請選擇Interface");
+		document.setForm.setInterface.focus();
 		return false;
 	}
 }
@@ -33,7 +34,7 @@ function check_ip(ip_str) {
 	if (!ipCheck.test(ip_str.value)) {
 		alert("IP格式錯誤");
 		return false;
-	} else if (num[0] > 254 || num[1] > 254 || num[2] > 254 || num[3] > 254 || 0,0,0,0 == num[0]) {
+	} else if (num[0] > 254 || num[1] > 254 || num[2] > 254 || num[3] > 254 || "0.0.0.0" === ip_str.value) {
 		alert("IP位址錯誤");
 		return false;
 	}

@@ -1,33 +1,41 @@
 <?php
-//$aEth_list = get_eth();
-if ($_POST["search"]) {//echo $_POST["search"];exit;
+
+if ($_POST["search"]) {
 	$aArp = get_arptable();
-//			print_r($aArp);exit;
 	switch ($_POST["search"]) {
 		case "IP":
 			foreach ($aArp as $arp) {
 				if ($arp[0] == $_POST["s_condition"]) {
-					$aList_arp = $arp;
+					$aList = $arp;
 					break;
 				}
+			}
+			if (!is_double_array($aList)) {
+				$aList_arp[0] = $aList;
 			}
 			break;
 		case "MAC":
 			foreach ($aArp as $arp) {
 				if ($arp[2] == $_POST["s_condition"]) {
-					$aList_arp = $arp;
+					$aList = $arp;
 					break;
 				}
 			}
+			if (!is_double_array($aList)) {
+				$aList_arp[0] = $aList;
+			}
 			break;
 		case "ETH":
-//			echo "3";
 			foreach ($aArp as $arp) {
 				if ($arp[4] == $_POST["s_condition"]) {
-					$aList_arp[] = $arp;
+					$aList[] = $arp;
 				}
 			}
-//			print_r($aList_arp);exit;
+			if (!is_double_array($aList)) {
+				$aList_arp[0] = $aList;
+			} else {
+				$aList_arp = $aList;
+			}
 			break;
 	}
 } else {
@@ -42,7 +50,7 @@ if ($_POST["search"]) {//echo $_POST["search"];exit;
 			break;
 		default :
 			$aList_arp = get_arptable();
-}
+	}
 }
 
 function get_arptable() {
@@ -70,8 +78,18 @@ function del_arp($ip, $dev) {
 }
 
 function listStringSplit($sList) {
-	$aList = preg_split("/[\s]+/", $sList , -1, PREG_SPLIT_NO_EMPTY);
+	$aList = preg_split("/[\s]+/", $sList, -1, PREG_SPLIT_NO_EMPTY);
 	return $aList;
+}
+
+function is_double_array($doubleArray) {
+	foreach ($doubleArray as $array) {
+		if (is_array($array)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
 
 require_once("xhtml/arptable.html");

@@ -3,8 +3,10 @@
 	<head>
 		<title>ARP Table</title>
 		<meta charset="UTF-8">
-		<link rel="stylesheet" type="text/css" href="style/table_style.css" />
 		<script language="javascript" type="text/javascript" src="js/format_check.js"></script>
+		<script language="javascript" type="text/javascript" src="js/tips.js"></script>
+		<link rel="stylesheet" type="text/css" href="style/table_style.css" />
+		<link rel="stylesheet" type="text/css" href="style/tips.css" />
 	</head>
 	<body>
 		<h1 align="center">ARP Table</h1>
@@ -12,14 +14,16 @@
 		<div class="css_table">
 			<form action="" method="post" name="sForm">
 				<div class="css_tr">
-					<div class="css_td"><input type="text" name="s_condition"/></div>
+					<div class="css_td" style="font-weight: bold">搜尋：<input type="text" name="s_condition"/></div>
 					<div class="css_td">
-						<select name="search" style="width: 124px;">
-							<option value="">請選擇</option>
-							<option value="IP">IP</option>
-							<option value="MAC">MAC</option>
-							<option value="ETH">interface</option>
-						</select>
+						<label>
+							<select name="search" style="width: 124px;">
+								<option value="" selected="selected">請選擇搜尋方式</option>
+								<option value="IP">IP</option>
+								<option value="MAC">MAC</option>
+								<option value="ETH">interface</option>
+							</select>
+						</label>
 					</div>
 					<div class="css_td"><input type="submit" name="submit" value="搜尋" class="css_button" style="width: 50px; height: 25px; cursor:pointer;"/></div>
 				</div>
@@ -34,7 +38,6 @@
 				<div class="css_td_border"></div>
 			</div>
 			<?php foreach ($aList_arp as $arp) {?>
-			<?php if (is_array($arp)) {?>
 			<div class="css_tr_color">
 				<div class="css_td_border" style="width: 140px;" align="left"><?php echo $arp[0];?></div>
 				<div class="css_td_border" style="width: 155px;" align="left"><?php echo $arp[2];?></div>
@@ -48,22 +51,6 @@
 					</form>
 				</div>
 			</div>
-			<?php } else {?>
-			<div class="css_tr_color">
-				<div class="css_td_border" style="width: 140px;" align="left"><?php echo $aList_arp[0];?></div>
-				<div class="css_td_border" style="width: 155px;" align="left"><?php echo $aList_arp[2];?></div>
-				<div class="css_td_border" style="width: 80px;" align="center"><?php echo $aList_arp[4];?></div>
-				<div class="css_td_border" style="width: 55px;" align="center">
-					<form action="" method="post" name="delForm">
-						<input type="hidden" name="delIP" value="<?php echo $aList_arp[0];?>"/>
-						<input type="hidden" name="delInterface" value="<?php echo $aList_arp[4];?>"/>
-						<input type="hidden" name="action" id="action" value="delArp"/>
-						<input type="submit" name="submit" value="刪除" onclick="return confirm('確定刪除？');" class="css_button" style="width: 50px; height: 25px; cursor: pointer;"/>
-					</form>
-				</div>
-			</div>
-			<?php break;?>
-			<?php }?>
 			<?php }?>
 		</div>
 		<br><div class="css_hr" style="width: 600px; margin: 0 auto;" align="center"></div><br>
@@ -74,20 +61,22 @@
 			<form action="" method="post" name="setForm" onsubmit="return checkForm();">
 				<div class="css_tr">
 					<div class="css_td" align="right" style="font-weight: bold;">IP：</div>
-					<div class="css_td"><input type="text" name="setIP" style="width: 120px"/></div>
+					<div class="css_td"><input type="text" name="setIP" onmouseover="tip.start(this)" tips="<?php echo 'e.g. 192.168.0.1'?>" style="width: 120px"/></div>
 				</div>
 				<div class="css_tr">
 					<div class="css_td" align="right" style="font-weight: bold;">MAC：</div>
-					<div class="css_td"><input type="text" name="setMac" style="width: 120px"/></div>
+					<div class="css_td"><input type="text" name="setMac" onmouseover="tip.start(this)" tips="<?php echo 'e.g. a0:09:af:aa:aa:aa'?>" style="width: 120px"/></div>
 				</div>
 				<div class="css_tr">
 					<div class="css_td" align="right" style="font-weight: bold;">Interface：</div>
 					<div class="css_td">
-						<select name="setInterface" style="width: 124px;">
-							<option value="">請選擇</option>
-							<option value="eth0">eth0</option>
-							<option value="eth3">eth3</option>
-						</select>
+						<label>
+							<select name="setInterface" style="width: 124px;">
+								<option value="" selected="selected">請選擇</option>
+								<option value="eth0">eth0</option>
+								<option value="eth3">eth3</option>
+							</select>
+						</label>
 					</div>
 				</div>
 				<div class="css_tr" align="right">
@@ -97,5 +86,6 @@
 				</div>
 			</form>
 		</div>
+		<div id="mjs:tip" class="tip" style="position: absolute; left: 0; top: 0; display: none;"></div>
 	</body>
 </html>

@@ -1,7 +1,26 @@
+.css_hr {
+	border: 0;
+	height: 2px;
+	background-color: #d4d4d4;
+	max-width: 600px;
+	margin: 0 auto;
+}
+
 .css_table {
 	display: table;
+	max-width: 450px;
 	margin: 0 auto;
 	border-collapse: collapse;
+}
+
+.css_table_title {
+	display: table;
+	max-width: 450px;
+	margin: 0 auto;
+	border-collapse: collapse;
+	font-weight: bold;
+	font-size: 24px;
+	color: #ff0000;
 }
 
 .css_tr {
@@ -10,39 +29,34 @@
 
 .css_td {
 	display: table-cell;
+	vertical-align: middle;
 }
 
-.css_tr_color:nth-child(odd) {
-	background: #dedede;
-	display: table-row;
-}
-
-.css_tr_color:nth-child(even) {
-	background: #fafafa;
+.css_tr_color {
 	display: table-row;
 }
 
 .css_tr_color:hover {
-    background: #e2fefe;
-}
-
-.css_td_border {
-	display: table-cell;
-	border: 1px solid #b7b7b7;
+	background: #e2fefe;
 }
 
 .css_tr_border {
 	display: table-row;
-	border: 1px solid #b7b7b7;
 }
 
-.css_hr {
-	border: 0;
-	height: 2px;
-	background-color: #d4d4d4;
+.css_td_border {
+	display: table-cell;
+	vertical-align: middle;
 }
 
-.css_tr div{
+.css_tr_subtitle {
+	display: table-row;
+	font-weight: bold;
+	font-size: 20px;
+	color: #0000ff;
+}
+
+.css_tr div {
 	margin: 0;
 	padding-top: 3px;
 	padding-bottom: 3px;
@@ -51,7 +65,16 @@
 	letter-spacing: 1px;
 }
 
-.css_tr_color div{
+.css_tr_color div {
+	margin: 0;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-left: 3px;
+	padding-right: 3px;
+	letter-spacing: 1px;
+}
+
+.css_tr_border div {
 	margin: 0;
 	padding-top: 3px;
 	padding-bottom: 3px;
@@ -69,6 +92,20 @@
 	text-decoration: none;
 	display: inline-block;
 	color: #000;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+.css_button a {
+	border: 2px black none;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	padding: 3px 8px 3px 8px;
+	text-decoration: none;
+	display: inline-block;
+	color: #000;
+	font-size: 16px
 }
 
 .css_button:hover {
@@ -78,4 +115,76 @@
 
 div input:focus {
 	background: #fefeda;
+}
+
+select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
+[class$="border"] {
+	border: 1px solid #b7b7b7;
+}
+
+[class$="color"] {
+	display: table-row;
+}
+
+[attribute*="td"] {
+	vertical-align: middle;
+}
+
+select {
+    padding:3px;
+    margin: 0;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+    -webkit-box-shadow: 0 3px 3px #ccc, 0 -1px #fff inset;
+    -moz-box-shadow: 0 3px 3px #ccc, 0 -1px #fff inset;
+    box-shadow: 0 3px 3px #ccc, 0 -1px #fff inset;
+    background: #ddd;
+    color:#000;
+    border:none;
+    outline:none;
+    display: inline-block;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+    cursor:pointer;
+}
+
+/* Targetting Webkit browsers only. FF will show the dropdown arrow with so much padding. */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    select {padding-right:18px}
+}
+
+label {
+	position:relative
+}
+
+label:after {
+    content:'<>';
+    font:11px "Consolas", monospace;
+    color:#000;
+    -webkit-transform:rotate(90deg);
+    -moz-transform:rotate(90deg);
+    -ms-transform:rotate(90deg);
+    transform:rotate(90deg);
+    right:8px; top:2px;
+    padding:0 0 2px;
+    border-bottom:1px solid #ddd;
+    position:absolute;
+    pointer-events:none;
+}
+
+label:before {
+    content:'';
+    right:6px; top:0px;
+    width:20px; height:20px;
+    background:#ddd;
+    position:absolute;
+    pointer-events:none;
+    display:block;
 }

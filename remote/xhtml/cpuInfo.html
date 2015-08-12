@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>System Infomation</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="style/table_style.css" />
+	</head>
+	<body bgcolor="#fff">
+		<h1 align="center">System Infomation</h1>
+		<div class="css_table">
+			<div class="css_td" align="right" style="width: 85px; font-weight: bold;">更新時間：</div>
+			<div class="css_td" align="left" style="width: 200px"><?php echo $aCpu_info["time"]?></div>
+			<div class="css_td" style="width: 90px; font-weight: bold" align="right">更新頻率：</div>
+			<div class="css_td" style="width: 75px; font-weight: bold" align="left">
+				<form method="post" name="freqForm">
+					<label>
+						<select name="frequency" style="width: 70px;" onchange="submit()">
+							<option <?php if ($frequency == "60") echo 'selected="selected"';?> value="60">1分鐘</option>
+							<option <?php if ($frequency == "180") echo 'selected="selected"';?> value="180">3分鐘</option>
+							<option <?php if ($frequency == "300") echo 'selected="selected"';?> value="300">5分鐘</option>
+						</select>
+					</label>
+				</form>
+			</div>
+		</div>
+		<br><div class="css_hr"></div><br>
+		<div class="css_table_title">Cpu Load Average</div>
+		<div class="css_table" style="width: 450px">
+			<div class="css_tr_color">
+				<div class="css_td_border" style="width: 135px; font-weight: bold;">One minute</div>
+				<div class="css_td_border"><?php echo $aCpu_info["oneMin"]?></div>
+			</div>
+			<div class="css_tr_color">
+				<div class="css_td_border" style="width: 135px; font-weight: bold;">Five minute</div>
+				<div class="css_td_border"><?php echo $aCpu_info["fiveMin"]?></div>
+			</div>
+			<div class="css_tr_color">
+				<div class="css_td_border" style="width: 135px; font-weight: bold;">Fifteen minute</div>
+				<div class="css_td_border"><?php echo $aCpu_info["fifteenMin"]?></div>
+			</div>
+		</div>
+		<br><div class="css_hr"></div><br>
+		<div class="css_table_title">Tasks</div>
+		<div class="css_table" style="width: 450px">
+			<div class="css_tr_color">
+				<div class="css_td_border" style="width: 135px; font-weight: bold;">Total Tasks</div>
+				<div class="css_td_border"><?php echo $aCpu_info["totalTasks"]?></div>
+			</div>
+			<div class="css_tr_color">
+				<div class="css_td_border" style="width: 135px; font-weight: bold;">Runnung Tasks</div>
+				<div class="css_td_border"><?php echo $aCpu_info["runTasks"]?></div>
+			</div>
+		</div>
+		<br><div class="css_hr"></div><br>
+		<div class="css_table_title">Cpu Usage</div>
+		<div class="css_table" style="width: 450px">
+			<div class="css_tr_color">
+				<div class="css_td_border" style="width: 135px; font-weight: bold;">Cpu Usage</div>
+				<div class="css_td_border"><?php echo $aCpu_info["cpuPercent"]?>%</div>
+			</div>
+		</div>
+		<br><div class="css_hr"></div><br>
+		<div class="css_table_title">Cpu Loading Top 3</div>
+		<div class="css_table" style="width: 450px">
+			<div class="css_tr_subtitle">Top 1</div>
+			<div class="css_tr_color">
+				<div class="css_td_border" style="width: 90px; font-weight: bold;">Pid</div>
+				<div class="css_td_border"><?php echo $aCpu_info["topOnePid"]?></div>
+			</div>
+			<div class="css_tr_color">
+				<div class="css_td_border" style="width: 90px; font-weight: bold;">Command</div>
+				<div class="css_td_border"><?php echo $aCpu_info["topOneComm"]?></div>
+			</div>
+			<div class="css_tr_subtitle">Top 2</div>
+			<div class="css_tr_color">
+				<div class="css_td_border" style="width: 90px; font-weight: bold;">Pid</div>
+				<div class="css_td_border"><?php echo $aCpu_info["topTwoPid"]?></div>
+			</div>
+			<div class="css_tr_color">
+				<div class="css_td_border" style="width: 90px; font-weight: bold;">Command</div>
+				<div class="css_td_border"><?php echo $aCpu_info["topTwoComm"]?></div>
+			</div>
+			<div class="css_tr_subtitle">Top 3</div>
+			<div class="css_tr_color">
+				<div class="css_td_border" style="width: 90px; font-weight: bold;">Pid</div>
+				<div class="css_td_border"><?php echo $aCpu_info["topThreePid"]?></div>
+			</div>
+			<div class="css_tr_color">
+				<div class="css_td_border" style="width: 90px; font-weight: bold;">Command</div>
+				<div class="css_td_border"><?php echo $aCpu_info["topThreeComm"]?></div>
+			</div>
+		</div>
+		<br><div class="css_hr"></div><br>
+		<div class="css_table" style="width: 450px">
+			<div align="right"><input type ="button" class="css_button" onclick="javascript:location.href='?logout=true'" value="Logout"/></div>
+		</div>
+	</body>
+</html>
