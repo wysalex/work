@@ -4,18 +4,25 @@
 		<title>System Infomation</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script language="javascript" type="text/javascript" src="js/tips.js"></script>
 		<link rel="stylesheet" type="text/css" href="style/table_style.css" />
+		<link rel="stylesheet" type="text/css" href="style/tips.css" />
 	</head>
-	<body bgcolor="#fff">
+	<body>
 		<h1 align="center">System Infomation</h1>
-		<div class="css_table">
-			<div class="css_td" align="right" style="width: 85px; font-weight: bold;">更新時間：</div>
-			<div class="css_td" align="left" style="width: 200px"><?php echo $aCpu_info["time"]?></div>
-			<div class="css_td" style="width: 90px; font-weight: bold" align="right">更新頻率：</div>
-			<div class="css_td" style="width: 75px; font-weight: bold" align="left">
+		<div class="css_table" style="width: 893px">
+			<div class="css_td" style="float: right">
+				<?php echo "共有 ".$total_lines."項，".$total_pages."頁，每頁顯示 ".$pageRow_records."項";?>
+			</div>
+		</div>
+		<div class="css_table" style="width: 893px">
+			<div class="css_td" style="width: 120px; font-weight: bold;" align="right">最後更新時間：</div>
+			<div class="css_td" style="width: 150px" align="left"><?php echo $aCpu_info["date"]?> <?php echo $aCpu_info["time"]?></div>
+			<div class="css_td" style="width: 85px; font-weight: bold" align="right">更新頻率：</div>
+			<div class="css_td" style="width: 75px" align="left">
 				<form method="post" name="freqForm">
 					<label>
-						<select name="frequency" style="width: 70px;" onchange="submit()">
+						<select name="frequency" style="width: 75px; height: 30px;" onchange="submit()">
 							<option <?php if ($frequency == "60") echo 'selected="selected"';?> value="60">1分鐘</option>
 							<option <?php if ($frequency == "180") echo 'selected="selected"';?> value="180">3分鐘</option>
 							<option <?php if ($frequency == "300") echo 'selected="selected"';?> value="300">5分鐘</option>
@@ -23,77 +30,93 @@
 					</label>
 				</form>
 			</div>
+			<div class="css_td" style="width: 60px"></div>
+			<?php if ($num_pages > 1) {?>
+			<div class="css_td" align="right">
+				<input type ="button" class="css_button" style="width: 75px; height: 30px;" onclick="javascript:location.href='?page=1'" value="第一頁"/>
+			</div>
+			<div class="css_td" align="right">
+				<input type ="button" class="css_button" style="width: 75px; height: 30px;" onclick="javascript:location.href='?page=<?php echo $num_pages - 1;?>'" value="上一頁"/>
+			</div>
+			<?php } else {?>
+			<div class="css_td" align="right">
+				<input type ="button" class="css_static" style="width: 75px; height: 30px;" value="第一頁"/>
+			</div>
+			<div class="css_td" align="right">
+				<input type ="button" class="css_static" style="width: 75px; height: 30px;" value="上一頁"/>
+			</div>
+			<?php }?>
+			<div class="css_td" align="right">
+				<label>
+					<select name="frequency" style="width: 75px; height: 30px;">
+						<?php for ($i = 1; $i <= $total_pages; $i++) {?>
+						<option <?php if ($num_pages == $i) echo 'selected="selected"';?> value="<?php echo $i?>" onclick="javascript:location.href='?page=<?php echo $i;?>'"><?php echo $i?></option>
+						<?php }?>
+					</select>
+				</label>
+			</div>
+			<?php if ($num_pages < $total_pages) {?>
+			<div class="css_td" align="right">
+				<input type ="button" class="css_button" style="width: 75px; height: 30px;" onclick="javascript:location.href='?page=<?php echo $num_pages + 1;?>'" value="下一頁"/>
+			</div>
+			<div class="css_td" align="right">
+				<input type ="button" class="css_button" style="width: 75px; height: 30px;" onclick="javascript:location.href='?page=<?php echo $total_pages;?>'" value="最後頁"/>
+			</div>
+			<?php } else {?>
+			<div class="css_td" align="right">
+				<input type ="button" class="css_static" style="width: 75px; height: 30px;" value="下一頁"/>
+			</div>
+			<div class="css_td" align="right">
+				<input type ="button" class="css_static" style="width: 75px; height: 30px;" value="最後頁"/>
+			</div>
+			<?php }?>
 		</div>
 		<br><div class="css_hr"></div><br>
-		<div class="css_table_title">Cpu Load Average</div>
-		<div class="css_table" style="width: 450px">
-			<div class="css_tr_color">
-				<div class="css_td_border" style="width: 135px; font-weight: bold;">One minute</div>
-				<div class="css_td_border"><?php echo $aCpu_info["oneMin"]?></div>
-			</div>
-			<div class="css_tr_color">
-				<div class="css_td_border" style="width: 135px; font-weight: bold;">Five minute</div>
-				<div class="css_td_border"><?php echo $aCpu_info["fiveMin"]?></div>
-			</div>
-			<div class="css_tr_color">
-				<div class="css_td_border" style="width: 135px; font-weight: bold;">Fifteen minute</div>
-				<div class="css_td_border"><?php echo $aCpu_info["fifteenMin"]?></div>
-			</div>
-		</div>
 		<br><div class="css_hr"></div><br>
-		<div class="css_table_title">Tasks</div>
-		<div class="css_table" style="width: 450px">
-			<div class="css_tr_color">
-				<div class="css_td_border" style="width: 135px; font-weight: bold;">Total Tasks</div>
-				<div class="css_td_border"><?php echo $aCpu_info["totalTasks"]?></div>
-			</div>
-			<div class="css_tr_color">
-				<div class="css_td_border" style="width: 135px; font-weight: bold;">Runnung Tasks</div>
-				<div class="css_td_border"><?php echo $aCpu_info["runTasks"]?></div>
-			</div>
-		</div>
+		<table align="center" rules="all">
+			<tr style="font-weight: bold; color: #ff0000;">
+				<td colspan="2" width="160" class="css_title">Time Stamp</td>
+				<td colspan="3" width="180" class="css_title">CPU Load Average</td>
+				<td colspan="2" width="120" class="css_title">Tasks</td>
+				<td colspan="1" width="95" class="css_title">CPU usage</td>
+				<td colspan="3" width="210" class="css_title">CPU Loading Top 3 PID</td>
+			</tr>
+			<tr>
+				<td width="90" class="css_title">Date</td>
+				<td width="70" class="css_title">Time</td>
+				<td width="60" class="css_title">One</td>
+				<td width="60" class="css_title">Five</td>
+				<td width="60" class="css_title">Fifteen</td>
+				<td width="60" class="css_title">Total</td>
+				<td width="60" class="css_title">Running</td>
+				<td width="80" class="css_title">Usage</td>
+				<td width="70" class="css_title">TOP 1</td>
+				<td width="70" class="css_title">TOP 2</td>
+				<td width="70" class="css_title">TOP 3</td>
+			</tr>
+			<?php for ($i = $startRow_records; $i < $endRow_records; $i++) {?>
+			<?php if (empty($cpu_info_list[$i])) {?>
+			<?php break;?>
+			<?php }?>
+			<tr>
+				<td><?php echo $cpu_info_list[$i][0];?></td>
+				<td><?php echo $cpu_info_list[$i][1];?></td>
+				<td><?php echo $cpu_info_list[$i][2];?></td>
+				<td><?php echo $cpu_info_list[$i][3];?></td>
+				<td><?php echo $cpu_info_list[$i][4];?></td>
+				<td><?php echo $cpu_info_list[$i][5];?></td>
+				<td><?php echo $cpu_info_list[$i][6];?></td>
+				<td><?php echo $cpu_info_list[$i][7];?>%</td>
+				<td onmouseover="tip.start(this)" tips="<?php echo $cpu_info_list[$i][9];?>"><?php echo $cpu_info_list[$i][8];?></td>
+				<td onmouseover="tip.start(this)" tips="<?php echo $cpu_info_list[$i][11];?>"><?php echo $cpu_info_list[$i][10];?></td>
+				<td onmouseover="tip.start(this)" tips="<?php echo $cpu_info_list[$i][13];?>"><?php echo $cpu_info_list[$i][12];?></td>
+			</tr>
+			<?php }?>
+		</table>
 		<br><div class="css_hr"></div><br>
-		<div class="css_table_title">Cpu Usage</div>
-		<div class="css_table" style="width: 450px">
-			<div class="css_tr_color">
-				<div class="css_td_border" style="width: 135px; font-weight: bold;">Cpu Usage</div>
-				<div class="css_td_border"><?php echo $aCpu_info["cpuPercent"]?>%</div>
-			</div>
+		<div class="css_table">
+			<div class="css_td" align="right" style="width: 893px"><input type ="button" class="css_button" onclick="javascript:location.href='?logout=true'" value="Logout"/></div>
 		</div>
-		<br><div class="css_hr"></div><br>
-		<div class="css_table_title">Cpu Loading Top 3</div>
-		<div class="css_table" style="width: 450px">
-			<div class="css_tr_subtitle">Top 1</div>
-			<div class="css_tr_color">
-				<div class="css_td_border" style="width: 90px; font-weight: bold;">Pid</div>
-				<div class="css_td_border"><?php echo $aCpu_info["topOnePid"]?></div>
-			</div>
-			<div class="css_tr_color">
-				<div class="css_td_border" style="width: 90px; font-weight: bold;">Command</div>
-				<div class="css_td_border"><?php echo $aCpu_info["topOneComm"]?></div>
-			</div>
-			<div class="css_tr_subtitle">Top 2</div>
-			<div class="css_tr_color">
-				<div class="css_td_border" style="width: 90px; font-weight: bold;">Pid</div>
-				<div class="css_td_border"><?php echo $aCpu_info["topTwoPid"]?></div>
-			</div>
-			<div class="css_tr_color">
-				<div class="css_td_border" style="width: 90px; font-weight: bold;">Command</div>
-				<div class="css_td_border"><?php echo $aCpu_info["topTwoComm"]?></div>
-			</div>
-			<div class="css_tr_subtitle">Top 3</div>
-			<div class="css_tr_color">
-				<div class="css_td_border" style="width: 90px; font-weight: bold;">Pid</div>
-				<div class="css_td_border"><?php echo $aCpu_info["topThreePid"]?></div>
-			</div>
-			<div class="css_tr_color">
-				<div class="css_td_border" style="width: 90px; font-weight: bold;">Command</div>
-				<div class="css_td_border"><?php echo $aCpu_info["topThreeComm"]?></div>
-			</div>
-		</div>
-		<br><div class="css_hr"></div><br>
-		<div class="css_table" style="width: 450px">
-			<div align="right"><input type ="button" class="css_button" onclick="javascript:location.href='?logout=true'" value="Logout"/></div>
-		</div>
+		<div id="mjs:tip" class="tip" style="position:absolute;left:0;top:0;display:none;"></div>
 	</body>
 </html>

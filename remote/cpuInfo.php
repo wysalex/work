@@ -12,6 +12,33 @@ if (isset($_GET["logout"]) && ($_GET["logout"] == "true")) {
 	exit;
 }
 
+$aCpu_info = cpu_info();
+$str = join("\t", $aCpu_info);
+$str = $str . "\n";
+write_in_file($str);
+$cpu_info_list = read_from_file();
+
+$pageRow_records = 20;
+$num_pages = 1;
+
+exec("cat /HDD/STATUSLOG/cpuinfo.log | wc -l", $log_line);
+$total_lines = $log_line[0];
+$total_pages = ceil($total_lines / $pageRow_records);
+
+if (isset($_GET['page'])) {
+	$num_pages = $_GET['page'];
+}
+
+$startRow_records = ($num_pages - 1) * $pageRow_records;
+$endRow_records = $startRow_records + 20;
+
+if (isset($_GET['page'])) {
+	if ($_GET['page'] > $total_pages || $_GET['page'] <= 0) {
+		header('location: cpuInfo.php');
+		exit;
+	}
+}
+
 $frequency = 60;
 if ($_POST["frequency"]) {
 	$frequency = $_POST["frequency"];
@@ -20,44 +47,34 @@ if ($_POST["frequency"]) {
 	header("refresh: " . $frequency . ";url='cpuInfo.php'");
 }
 
-$aCpu_info = cpu_info();
-$str = join("\t", $aCpu_info);
-$str = $str . "\n";
-write_in_file($str);
-
 function cpu_info() {
+//	global $frequency;
+//
+//	$timestamp = time();
+//	$Min = date("i", $timestamp);
+//	if (intval($Min) % $frequency != 0) {
+//		return "";
+//	}
+
 	$aCpu_info = array();
-	exec("top -d 1 -b -n 1 c", $cpuinfo);
-//	print_r($cpuinfo);
+	exec("date +'%Y-%m-%d\t%H:%M:%S'", $time);
+	$date_time = listStringSplit(trim($time[0]));
+	$aCpu_info["date"] = trim($date_time[0]);
+	$aCpu_info["time"] = trim($date_time[1]);
+
 	exec("uptime", $load_avg);
 	$uptime = listStringSplit(trim($load_avg[0]));
-	$aCpu_info["time"] = $uptime[0];
 	$aCpu_info["oneMin"] = $uptime[7];
 	$aCpu_info["fiveMin"] = $uptime[8];
 	$aCpu_info["fifteenMin"] = $uptime[9];
-//	$uptime = listStringSplit(trim($cpuinfo[0]));
-//	print_r($uptime);
-//	$aCpu_info["oneMin"] = $uptime[9];
-//	$aCpu_info["fiveMin"] = $uptime[10];
-//	$aCpu_info["fifteenMin"] = $uptime[11];
-//	exec("ps aux | wc -l", $tasks_num);
-//	$aCpu_info["totalTasks"] = $tasks_num[0] - 2;
-//	exec("ps aux", $cpu_tasks);
-//	foreach ($cpu_tasks as $cpu_task) {
-//		$cputasks[] = listStringSplit(trim($cpu_task));
-//	}
-//	print_r($cputasks[50]);
 
+	exec("top -d 1 -b -n 1 c", $cpuinfo);
 	$cpu_tasks = listStringSplit(trim($cpuinfo[1]));
 	$aCpu_info["totalTasks"] = $cpu_tasks[1];
 	$aCpu_info["runTasks"] = $cpu_tasks[3];
 
-//	exec("echo $((100 - $(vmstat|tail -1|awk '{print $15}')))", $cpu_usage);
-//	$cpu_usage = trim($cpu_usage[0]);
-//	$aCpu_info["cpuPercent"] = $cpu_usage[0];
 	$cpu_percent = listStringSplit(trim($cpuinfo[2]));
 	$aCpu_info["cpuPercent"] = 100 - trim(str_replace("%id", "", $cpu_percent[4]));
-//	$aCpu_info["cpuPercent"] = 100 - trim($cpu_percent[7]);
 
 	$top_three[] = listStringSplit(trim($cpuinfo[7]));
 	$top_three[] = listStringSplit(trim($cpuinfo[8]));
@@ -68,7 +85,7 @@ function cpu_info() {
 	$aCpu_info["topTwoComm"] = brackets_remove($top_three[1][11]);
 	$aCpu_info["topThreePid"] = $top_three[2][0];
 	$aCpu_info["topThreeComm"] = brackets_remove($top_three[2][11]);
-//print_r($aCpu_info);
+
 	return $aCpu_info;
 }
 
@@ -85,6 +102,14 @@ function write_in_file($input) {
 	}
 	file_put_contents("/HDD/STATUSLOG/cpuinfo.log", $input, FILE_APPEND);
 	return;
+}
+
+function read_from_file() {
+	exec("tac /HDD/STATUSLOG/cpuinfo.log", $aTmp);
+	foreach ($aTmp as $str) {
+		$cpu_info_list[] = listStringSplit($str);
+	}
+	return $cpu_info_list;
 }
 
 function listStringSplit($sList) {

@@ -5,18 +5,18 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" type="text/css" href="style/table_style.css" />
+		<script language="javascript" type="text/javascript" src="js/str_check.js"></script>
 	</head>
 	<body bgcolor="gray">
-		<div style="vertical-align:middle">
 		<h1 align="center">Login</h1>
-		<form action="" method="post">
+		<form action="" method="post" name="loginForm" onsubmit="return check_login();">
 			<div class="css_table">
 				<div class="css_tr">
 				<div class="css_td" style="font-weight: bold">Username：</div>
 				<div class="css_td"><input type="text" name="username"/></div>
 				</div>
 				<div class="css_tr">
-				<div class="css_td" style="font-weight: bold">Password：</div>
+				<div class="css_td" style="font-weight: bold">Password ： </div>
 				<div class="css_td"><input type="text" name="passwd"/></div>
 				</div>
 			</div>
