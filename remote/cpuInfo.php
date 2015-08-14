@@ -1,5 +1,7 @@
 <?php
 
+header('Content-type: text/html; charset=utf-8');
+
 session_start();
 
 if (!isset($_SESSION["loginMember"]) || ($_SESSION["loginMember"] == "")) {
@@ -12,10 +14,19 @@ if (isset($_GET["logout"]) && ($_GET["logout"] == "true")) {
 	exit;
 }
 
+$frequency = 1;
+if (isset($_GET["freq"])) {
+	$frequency = $_GET["freq"];
+}
+
+header("refresh: 60;url='cpuInfo.php?freq=" . $frequency . "'");
+
 $aCpu_info = cpu_info();
-$str = join("\t", $aCpu_info);
-$str = $str . "\n";
-write_in_file($str);
+if ($aCpu_info) {
+	$str = join("\t", $aCpu_info);
+	$str = $str . "\n";
+	write_in_file($str);
+}
 $cpu_info_list = read_from_file();
 
 $pageRow_records = 20;
@@ -25,48 +36,64 @@ exec("cat /HDD/STATUSLOG/cpuinfo.log | wc -l", $log_line);
 $total_lines = $log_line[0];
 $total_pages = ceil($total_lines / $pageRow_records);
 
-if (isset($_GET['page'])) {
-	$num_pages = $_GET['page'];
+if (isset($_GET["page"])) {
+	$num_pages = $_GET["page"];
 }
 
 $startRow_records = ($num_pages - 1) * $pageRow_records;
 $endRow_records = $startRow_records + 20;
 
-if (isset($_GET['page'])) {
-	if ($_GET['page'] > $total_pages || $_GET['page'] <= 0) {
-		header('location: cpuInfo.php');
+if (isset($_GET["page"])) {
+	if ($_GET["page"] > $total_pages || $_GET["page"] <= 0) {
+		header("location: cpuInfo.php");
 		exit;
 	}
 }
 
-$frequency = 60;
-if ($_POST["frequency"]) {
-	$frequency = $_POST["frequency"];
-	header("refresh: " . $frequency . ";url='cpuInfo.php'");
-} else {
-	header("refresh: " . $frequency . ";url='cpuInfo.php'");
-}
-
 function cpu_info() {
-//	global $frequency;
-//
-//	$timestamp = time();
-//	$Min = date("i", $timestamp);
-//	if (intval($Min) % $frequency != 0) {
-//		return "";
-//	}
+	global $frequency;
+
+	$timestamp = time();
+	exec("cat /HDD/STATUSLOG/cpuinfo.log | tail -1", $tmp);
+	$aTmp = listStringSplit($tmp[0]);
+	$last_time = "$aTmp[0]_$aTmp[1]";
+	$datatime = date("Y-m-d_H:i", $timestamp);
+	if ($datatime == $last_time) {
+		return FALSE;
+	}
+
+	switch ($frequency) {
+		case "1":
+			$min = date("i", $timestamp);
+			if (intval($min) % 1 != 0) {
+				return FALSE;
+			}
+			break;
+		case "3":
+			$min = date("i", $timestamp);
+			if (intval($min) % 3 != 0) {
+				return FALSE;
+			}
+			break;
+		case "5":
+			$min = date("i", $timestamp);
+			if (intval($min) % 5 != 0) {
+				return FALSE;
+			}
+			break;
+	}
 
 	$aCpu_info = array();
-	exec("date +'%Y-%m-%d\t%H:%M:%S'", $time);
+	exec("date +'%Y-%m-%d\t%H:%M'", $time);
 	$date_time = listStringSplit(trim($time[0]));
 	$aCpu_info["date"] = trim($date_time[0]);
 	$aCpu_info["time"] = trim($date_time[1]);
 
-	exec("uptime", $load_avg);
-	$uptime = listStringSplit(trim($load_avg[0]));
-	$aCpu_info["oneMin"] = $uptime[7];
-	$aCpu_info["fiveMin"] = $uptime[8];
-	$aCpu_info["fifteenMin"] = $uptime[9];
+	exec("cat /proc/loadavg", $load_avg);
+	$loadavg = listStringSplit(trim($load_avg[0]));
+	$aCpu_info["oneMin"] = $loadavg[0];
+	$aCpu_info["fiveMin"] = $loadavg[1];
+	$aCpu_info["fifteenMin"] = $loadavg[2];
 
 	exec("top -d 1 -b -n 1 c", $cpuinfo);
 	$cpu_tasks = listStringSplit(trim($cpuinfo[1]));

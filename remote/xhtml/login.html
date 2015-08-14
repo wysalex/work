@@ -3,25 +3,25 @@
 	<head>
 		<title>Login</title>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" type="text/css" href="style/table_style.css" />
 		<script language="javascript" type="text/javascript" src="js/str_check.js"></script>
 	</head>
-	<body bgcolor="gray">
-		<h1 align="center">Login</h1>
-		<form action="" method="post" name="loginForm" onsubmit="return check_login();">
-			<div class="css_table">
-				<div class="css_tr">
-				<div class="css_td" style="font-weight: bold">Username：</div>
-				<div class="css_td"><input type="text" name="username"/></div>
+	<body>
+		<div class="css_middle">
+			<form action="" method="post" name="loginForm" onsubmit="return check_login();">
+				<div class="css_table" style="border: 1px solid #b7b7b7; border-collapse: collapse; width: 500px; height: 300px;">
+					<div class="css_tr" style="border: 1px solid #b7b7b7; font-weight: bold; font-size: 22px; height: 30px; background: #d5d5d5">
+						<div class="css_td">Login System</div>
+					</div><br><br>
+					<div class="css_tr" align="center">
+						<div class="css_td"><input type="text" name="username" id="userinsert" placeholder="Username"/></div>
+					</div>
+					<div class="css_tr" align="center">
+						<div class="css_td"><input type="password" name="passwd" id="userinsert" placeholder="Password"/></div>
+					</div><br>
+					<div align="center"><input type="submit" name="submit" class="css_button" style="font-size: 25px; width: 120px; height:40px;" value="Login"/></div><br>
 				</div>
-				<div class="css_tr">
-				<div class="css_td" style="font-weight: bold">Password ： </div>
-				<div class="css_td"><input type="text" name="passwd"/></div>
-				</div>
-			</div>
-			<div align="center"><input type="submit" name="submit" value="Login" class="css_button"/></div>
-		</form>
+			</form>
 		</div>
 	</body>
 </html>

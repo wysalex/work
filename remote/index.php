@@ -46,8 +46,7 @@ if (!isset($_SESSION["loginMember"]) || ($_SESSION["loginMember"] == "")) {
 }
 
 function cleanInput($input) {
-	$clean = trim($input);
-	$clean = strtolower($clean);
+	$clean = strtolower($input);
 	$clean = preg_replace("/[^a-z0-9]/", "", $clean);
 	$clean = substr($clean, 0, 12);
 	return $clean;
