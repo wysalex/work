@@ -14,140 +14,95 @@ if (isset($_GET["logout"]) && ($_GET["logout"] == "true")) {
 	exit;
 }
 
-$frequency = 1;
-if (isset($_GET["freq"])) {
-	$frequency = $_GET["freq"];
+if (isset($_POST["frequency"])) {
+	set_frequency($_POST["frequency"]);
+	$raw_freq = $_POST["frequency"];
+} else {
+	$raw_freq = get_frequency();
+	if (empty($raw_freq)) {
+		set_frequency(1);
+		$raw_freq = 1;
+	}
 }
 
-header("refresh: 60;url='cpuInfo.php?freq=" . $frequency . "'");
+header("refresh: 60;url='cpuInfo.php'");
 
-$aCpu_info = cpu_info();
-if ($aCpu_info) {
-	$str = join("\t", $aCpu_info);
-	$str = $str . "\n";
-	write_in_file($str);
-}
 $cpu_info_list = read_from_file();
 
-$pageRow_records = 20;
+$page_row_records = 20;
 $num_pages = 1;
-
-exec("cat /HDD/STATUSLOG/cpuinfo.log | wc -l", $log_line);
-$total_lines = $log_line[0];
-$total_pages = ceil($total_lines / $pageRow_records);
-
-if (isset($_GET["page"])) {
-	$num_pages = $_GET["page"];
-}
-
-$startRow_records = ($num_pages - 1) * $pageRow_records;
-$endRow_records = $startRow_records + 20;
+$total_lines = count($cpu_info_list);
+$total_pages = ceil($total_lines / $page_row_records);
 
 if (isset($_GET["page"])) {
 	if ($_GET["page"] > $total_pages || $_GET["page"] <= 0) {
-		header("location: cpuInfo.php");
+		echo "<script language=javascript>";
+		echo "alert('請輸入正確的頁數');";
+		echo "document.location.href='cpuInfo.php';";
+		echo "</script>";
 		exit;
+	} else {
+		$num_pages = $_GET["page"];
 	}
 }
 
-function cpu_info() {
-	global $frequency;
-
-	$timestamp = time();
-	exec("cat /HDD/STATUSLOG/cpuinfo.log | tail -1", $tmp);
-	$aTmp = listStringSplit($tmp[0]);
-	$last_time = "$aTmp[0]_$aTmp[1]";
-	$datatime = date("Y-m-d_H:i", $timestamp);
-	if ($datatime == $last_time) {
-		return FALSE;
-	}
-
-	switch ($frequency) {
-		case "1":
-			$min = date("i", $timestamp);
-			if (intval($min) % 1 != 0) {
-				return FALSE;
-			}
-			break;
-		case "3":
-			$min = date("i", $timestamp);
-			if (intval($min) % 3 != 0) {
-				return FALSE;
-			}
-			break;
-		case "5":
-			$min = date("i", $timestamp);
-			if (intval($min) % 5 != 0) {
-				return FALSE;
-			}
-			break;
-	}
-
-	$aCpu_info = array();
-	exec("date +'%Y-%m-%d\t%H:%M'", $time);
-	$date_time = listStringSplit(trim($time[0]));
-	$aCpu_info["date"] = trim($date_time[0]);
-	$aCpu_info["time"] = trim($date_time[1]);
-
-	exec("cat /proc/loadavg", $load_avg);
-	$loadavg = listStringSplit(trim($load_avg[0]));
-	$aCpu_info["oneMin"] = $loadavg[0];
-	$aCpu_info["fiveMin"] = $loadavg[1];
-	$aCpu_info["fifteenMin"] = $loadavg[2];
-
-	exec("top -d 1 -b -n 1 c", $cpuinfo);
-	$cpu_tasks = listStringSplit(trim($cpuinfo[1]));
-	$aCpu_info["totalTasks"] = $cpu_tasks[1];
-	$aCpu_info["runTasks"] = $cpu_tasks[3];
-
-	$cpu_percent = listStringSplit(trim($cpuinfo[2]));
-	$aCpu_info["cpuPercent"] = 100 - trim(str_replace("%id", "", $cpu_percent[4]));
-
-	$top_three[] = listStringSplit(trim($cpuinfo[7]));
-	$top_three[] = listStringSplit(trim($cpuinfo[8]));
-	$top_three[] = listStringSplit(trim($cpuinfo[9]));
-	$aCpu_info["topOnePid"] = $top_three[0][0];
-	$aCpu_info["topOneComm"] = brackets_remove($top_three[0][11]);
-	$aCpu_info["topTwoPid"] = $top_three[1][0];
-	$aCpu_info["topTwoComm"] = brackets_remove($top_three[1][11]);
-	$aCpu_info["topThreePid"] = $top_three[2][0];
-	$aCpu_info["topThreeComm"] = brackets_remove($top_three[2][11]);
-
-	return $aCpu_info;
-}
-
-function write_in_file($input) {
-	exec("cat /HDD/STATUSLOG/cpuinfo.log | wc -l", $log_line);
-	if ($log_line[0] == 3500) {
-		exec("cat /HDD/STATUSLOG/cpuinfo.log | tail -3499", $aTmp);
-		$fp = fopen("/HDD/STATUSLOG/cpuinfo.log", "w+");
-		foreach ($aTmp as $str) {
-			$str = $str . "\n";
-			fwrite($fp, $str);
-		}
-		fclose($fp);
-	}
-	file_put_contents("/HDD/STATUSLOG/cpuinfo.log", $input, FILE_APPEND);
-	return;
-}
+$start_row_records = ($num_pages - 1) * $page_row_records;
+$end_row_records = $start_row_records + 20;
 
 function read_from_file() {
 	exec("tac /HDD/STATUSLOG/cpuinfo.log", $aTmp);
 	foreach ($aTmp as $str) {
-		$cpu_info_list[] = listStringSplit($str);
+		$cpu_info_list[] = explode("\t", $str);
 	}
 	return $cpu_info_list;
 }
 
-function listStringSplit($sList) {
-	$aList = preg_split("/[\s,]+/", $sList, -1, PREG_SPLIT_NO_EMPTY);
-	return $aList;
+function get_frequency() {
+	exec("cat /addpkg/conf/crontab | grep '/PDATA/apache/update_cpu_info'", $cpu_info_cron);
+	if (!empty($cpu_info_cron)) {
+		$cron = listStringSplit($cpu_info_cron[0]);
+		$freq = str_replace("*/", "", $cron[0]);
+	} else {
+		return "";
+	}
+	return $freq;
 }
 
-function brackets_remove($string) {
-	$left = str_replace("[", "", $string);
-	$right = str_replace("]", "", $left);
-	return $right;
+function set_frequency($freq) {
+	exec("cat -n /addpkg/conf/crontab | grep '/PDATA/apache/update_cpu_info'", $freq_conf);
+	if (!empty($freq_conf)) {
+		$line = listStringSplit($freq_conf[0]);
+		exec("sed -i '$line[0] d' /addpkg/conf/crontab");
+		$ins_line = $line[0] -1;
+	} else {
+		exec("echo '' >> /addpkg/conf/crontab");
+		exec("wc -l /addpkg/conf/crontab", $log_line);
+		$total_line = listStringSplit($log_line[0]);
+		$ins_line = $total_line[0];
+	}
+
+	$cron_base = " * * * * root /PGRAM/php/bin/php -q /PDATA/apache/update_cpu_info.php' /addpkg/conf/crontab";
+	switch ($freq) {
+		case "1":
+			$cmd1 = "sed -i ' " . $ins_line . " a */1" . $cron_base;
+			exec($cmd1);
+			break;
+		case "3":
+			$cmd3 = "sed -i ' " . $ins_line . " a */3" . $cron_base;
+			exec($cmd3);
+			break;
+		case "5":
+			$cmd5 = "sed -i ' " . $ins_line . " a */5" . $cron_base;
+			exec($cmd5);
+			break;
+	}
+	exec("/etc/init.d/cron restart");
+	return;
+}
+
+function listStringSplit($sList) {
+	$aList = preg_split("/[\s]+/", $sList, -1, PREG_SPLIT_NO_EMPTY);
+	return $aList;
 }
 
 require_once "xhtml/cpuInfo.html";

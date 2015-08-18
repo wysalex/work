@@ -24,6 +24,10 @@ class DB {
 		return mysql_select_db($dbname, $dbconnect);
 	}
 
+	function escape_word($input) {
+		return mysql_real_escape_string($input);
+	}
+
 	function rawQuery($sql) {
 		$query = mysql_query($sql);
 		if (!$query) {

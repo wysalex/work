@@ -13,10 +13,17 @@ if (isset($_GET["logout"]) && ($_GET["logout"] == "true")) {
 	header("Location: /");
 	exit;
 }
+if (isset($_GET["clear"]) && ($_GET["clear"] == "true")) {
+	unset($_SESSION["serchCondition"]);
+	header("Location: /cpuInfo.php");
+	exit;
+}
 
 if (!empty($_POST["serchCondition"])) {
-	$serch_condition = $_POST["serchCondition"];
-} else {
+	$_SESSION["serchCondition"] = escapeshellcmd(trim($_POST["serchCondition"]));
+}
+
+if (empty($_SESSION["serchCondition"])) {
 	echo "<script language=javascript>";
 	echo "alert('請輸入搜尋條件');";
 	echo "document.location.href='cpuInfo.php';";
@@ -24,34 +31,34 @@ if (!empty($_POST["serchCondition"])) {
 	exit;
 }
 
-$serch_result = search_data($serch_condition);
+$serch_result = search_data($_SESSION["serchCondition"]);
 
-$pageRow_records = 20;
+$page_row_records = 20;
 $num_pages = 1;
 
-exec("cat /HDD/STATUSLOG/cpuinfo.log | grep '" . $serch_condition . "'| wc -l", $log_line);
-$total_lines = $log_line[0];
-$total_pages = ceil($total_lines / $pageRow_records);
-
-if (isset($_GET["page"])) {
-	$num_pages = $_GET["page"];
-}
-
-$startRow_records = ($num_pages - 1) * $pageRow_records;
-$endRow_records = $startRow_records + 20;
+$total_lines = count($serch_result);
+$total_pages = ceil($total_lines / $page_row_records);
 
 if (isset($_GET["page"])) {
 	if ($_GET["page"] > $total_pages || $_GET["page"] <= 0) {
-		header("location: cpuInfo.php");
+		echo "<script language=javascript>";
+		echo "alert('請輸入正確的頁數');";
+		echo "document.location.href='serchresult.php';";
+		echo "</script>";
 		exit;
+	} else {
+		$num_pages = $_GET["page"];
 	}
 }
+
+$start_row_records = ($num_pages - 1) * $page_row_records;
+$end_row_records = $start_row_records + 20;
 
 function search_data($input) {
 	$trim_clean = trim($input);
 	exec("tac /HDD/STATUSLOG/cpuinfo.log | grep '" . $trim_clean . "'", $resault);
 	foreach ($resault as $str) {
-		$serch_result[] = listStringSplit($str);
+		$serch_result[] = explode("\t", $str);
 	}
 	return $serch_result;
 }
