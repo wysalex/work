@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>TODO supply a title</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>-->
+		<script language="javascript" type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/menu.css" />
+		<link rel="stylesheet" type="text/css" href="css/table_style.css" />
+		<script language="JavaScript" type="text/javascript">
+			function ShowTime(){
+				var NowDate = new Date();
+				var h = NowDate.getHours();
+				var m = NowDate.getMinutes();
+				var s = NowDate.getSeconds();
+				if (h < 10) {
+					h = '0' + h;
+				}
+				if (m < 10) {
+					m = '0' + m;
+				}
+				if (s < 10) {
+					s = '0' + s;
+				}
+				$('#time').html('現在時刻：' + h + '時 ' + m + '分 ' + s + '秒');
+				setTimeout('ShowTime()',1000);
+			}
+		</script>
+	</head>
+	<!--<body onload="ShowTime();" bgcolor="#575757" style="color: #e2fefe; font-weight: bold;">-->
+	<body onload="ShowTime();">
+		<h1 align='center'>客戶資料系統</h1>
+		<div class="option">
+			<ul class="navigation">
+				<li>
+					<a>選單內容 1</a>
+					<ul>
+						<li><a href="#">選單內容 1 - 1</a></li>
+						<li>
+							<a href="#">選單內容 1 - 2</a>
+							<ul>
+								<li>
+									<a href="#">選單內容 2 - 1</a>
+									<ul>
+										<li><a href="#">選單內容 6 - 1</a></li>
+										<li><a href="https://www.google.com">Google</a></li>
+									</ul>
+								</li>
+								<li>
+									<a href="#">選單內容 2 - 2</a>
+									<ul>
+										<li><a href="#">選單內容 3 - 1</a>
+											<ul>
+												<li>
+													<a href="#">選單內容 4 - 1</a>
+												</li>
+												<li>
+													<a href="#">選單內容 4 - 2</a>
+													<ul>
+														<li><a href="#">選單內容 5 - 1</a></li>
+														<li>
+															<a href="#">選單內容 5 - 2</a>
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li><a href="#">選單內容 3 - 2</a></li>
+										<li><a href="#">選單內容 3 - 3</a></li>
+										<li><a href="#">選單內容 3 - 4</a></li>
+										<li><a href="#">選單內容 3 - 5</a></li>
+										<li><a href="#">選單內容 3 - 6</a></li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li><a>選單內容 2</a>
+					<ul>
+						<li><a href="CustomerList.php">客戶清單</a></li>
+						<li><a href="newCustomer.php">新增客戶資料</a></li>
+						<li><a href="items.php">商品清單</a></li>
+					</ul>
+				</li>
+				<li><a>選單內容 3</a></li>
+				<li><a>選單內容 4</a></li>
+				<li><a>選單內容 5</a></li>
+				<li><a>選單內容 6</a></li>
+				<li><a>選單內容 7</a></li>
+			</ul>
+		</div>
+		<br>
+		<div class="css_table">
+			<div class='css_td' id="time" align="right" style="width: 720px;"></div>
+		</div>
+		<br><br>
+		<div class="css_table">
+			<div class="css_td" align="right" style="width: 720px"><input type ="button" class="css_button" onclick="javascript:location.href='?logout=true'" value="登出"/></div>
+		</div>
+	</body>
+</html>

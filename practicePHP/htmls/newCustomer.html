@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>TODO supply a title</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="css/table_style.css" />
+		<script language="javascript" type="text/javascript" src="js/checkInsert.js"></script>
+		<script language="javascript" type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+	</head>
+	<body>
+		<h1 align="center">新增資料</h1>
+		<form action="" method="post" name="insForm" onsubmit="checkAll();">
+			<div class="css_table" style="border: 1px solid #b7b7b7;">
+				<div class="css_tr">
+					<div class="css_td">姓名：</div>
+					<div class="css_td"><input type="text" name="customer" size="20" autofocus/></div>
+				</div>
+				<div class="css_tr">
+					<div class="css_td">電話：</div>
+					<div class="css_td"><input type="text" name="phone" size="20" placeholder="0987-654321" pattern="09[0-9][0-9]([\-|\s]?)[0-9]{6}"/></div>
+				</div>
+				<div class="css_tr">
+					<div class="css_td">地址：</div>
+					<div class="css_td"><input type="text" name="address" size="80"/></div>
+				</div>
+				<div class="css_tr">
+					<div class="css_td">項目：</div>
+					<div class="css_td"><input type="text" name="items" size="80"/></div>
+				</div>
+				<div class="css_tr">
+					<div class="css_td">備註：</div>
+					<div class="css_td"><input type="text" name="remark" size="20"/></div>
+				</div>
+				<div class="css_tr" align="right">
+					<div class="css_td"></div>
+					<div class="css_td"><button type="reset">清除</button><input type="submit" name="button1" value="送出"/></div>
+				</div>
+			</div>
+		</form>
+	</body>
+</html>

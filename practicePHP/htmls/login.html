@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>登入系統</title>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="css/table_style.css" />
+		<script language="javascript" type="text/javascript" src="js/str_check.js"></script>
+		<script language="javascript" type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+	</head>
+	<!--<body onLoad="document.getElementById('username').focus();">-->
+	<body>
+		<div class="css_middle">
+			<form action="checkPass.php" method="post" name="loginForm" onsubmit="return check_login();">
+				<div class="css_table" style="border: 1px solid #b7b7b7; width: 500px; height: 300px; border-radius: 3px;">
+					<div class="css_tr" style="border: 1px solid #b7b7b7; font-weight: bold; font-size: 22px; height: 30px; background: #d5d5d5; border-radius: 3px;">
+						<div class="css_td">Login System</div>
+					</div><br><br>
+					<div class="css_tr" align="center">
+						<div class="css_td"><input class="userInsert" type="text" name="username" id="username" placeholder="Username" autofocus/></div>
+					</div>
+					<div class="css_tr" align="center">
+						<div class="css_td"><input class="userInsert" type="password" name="passwd" id="passwd" placeholder="Password"/></div>
+					</div><br>
+					<div align="center"><input type="submit" name="submit" class="css_button" style="font-size: 25px; width: 120px; height:40px;" value="Login"/></div><br>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>
