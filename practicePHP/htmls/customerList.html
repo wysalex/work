@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Customer List</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!--<script language="javascript" type="text/javascript" src="js/tips.js"></script>-->
+		<link rel="stylesheet" type="text/css" href="css/table_style.css" />
+		<script language="javascript" type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+		<!--<link rel="stylesheet" type="text/css" href="css/tips.css" />-->
+	</head>
+	<!--<body bgcolor="#575757" style="color: #e2fefe; font-weight: bold;">-->
+	<body>
+		<h1 align="center">Customer List</h1>
+		<? include_once '/opt/lampp/htdocs/practicePHP/htmls/list.html'?>
+		<br><div class="css_hr"></div><br>
+		<div class="css_table">
+			<? if (!empty($_SESSION['serchCustomer'])) {?>
+			<form action="" method="post" name="serchForm">
+				<input type="hidden" name='clearSearch' value='1'/>
+				<div class="css_td" align="right" style="width: 800px"><input type="submit" name="submit" class="css_button" style="width: 80px; height: 32px;" value="清除搜尋"/></div>
+			</form>
+			<? } else {?>
+			<div class="css_td" align="right" style="width: 800px"></div>
+			<? }?>
+			<div class="css_td" align="right" style="width: 100px"><input type ="button" class="css_button" onclick="history.back()" value="返回"/></div>
+			<div class="css_td" align="right" style="width: 100px"><input type ="button" class="css_button" onclick="javascript:location.href='?logout=true'" value="登出"/></div>
+		</div>
+	</body>
+</html>

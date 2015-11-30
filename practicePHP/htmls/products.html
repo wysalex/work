@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>TODO supply a title</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="css/table_style.css" />
+		<script language="javascript" type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+	</head>
+	<body>
+		<h1 align="center">Products List</h1>
+		<? include_once '/opt/lampp/htdocs/practicePHP/htmls/list.html'?>
+		<br><div class="css_hr"></div><br>
+		<div class="css_table">
+			<? if (!empty($_SESSION['serchItems'])) {?>
+			<form action="" method="post" name="serchForm">
+				<input type="hidden" name='clearSearch' value='1'/>
+				<div class="css_td" align="right" style="width: 800px"><input type="submit" name="submit" class="css_button" style="width: 80px; height: 32px;" value="清除搜尋"/></div>
+			</form>
+			<? } else {?>
+			<div class="css_td" align="right" style="width: 800px"></div>
+			<? }?>
+			<div class="css_td" align="right" style="width: 100px"><input type="button" class="css_button" onclick="history.back()" value="返回"/></div>
+			<div class="css_td" align="right" style="width: 100px"><input type="button" class="css_button" onclick="javascript:location.href='?logout=true'" value="登出"/></div>
+		</div>
+	</body>
+</html>

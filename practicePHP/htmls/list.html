@@ -1,0 +1,68 @@
+<div class="css_table" style="width: 1000px;">
+	<form action="" method="post" name="serchForm">
+		<div class="css_td" align="left" style="width: 180px;"><input class="userInsert" type="text" name="serchCondition" style="font-size: 107%; width: 150px; height: 25px;" placeholder="<? echo $sSearchPlaceHolder?>"/></div>
+		<div class="css_td" align="left"><input type="submit" name="submit" class="css_button" style="width: 80px; height: 32px;" value="搜尋"/></div>
+	</form>
+</div>
+<br>
+<div class="css_table" style="width: 1000px;">
+	<div class="css_td" style="width: 545px; float: right;">
+		<? echo "共 " . $totalLines . "項，每頁顯示 " . $pageRow . "項，共 " . $totalPages . "頁";?>
+	</div>
+	<div class="css_td" style="width: 40px"></div>
+	<? if ($nPages > 1) {?>
+	<div class="css_td" align="right" style="width: 90px">
+		<input type ="button" class="css_button" style="width: 75px;" onclick="javascript:location.href='?page=1'" value="第一頁"/>
+	</div>
+	<div class="css_td" align="right" style="width: 90px">
+		<input type ="button" class="css_button" style="width: 75px;" onclick="javascript:location.href='?page=<? echo $nPages - 1;?>'" value="上一頁"/>
+	</div>
+	<? } else {?>
+	<div class="css_td" align="right" style="width: 90px">
+		<input type ="button" class="css_static" style="width: 75px;" value="第一頁"/>
+	</div>
+	<div class="css_td" align="right" style="width: 90px">
+		<input type ="button" class="css_static" style="width: 75px;" value="上一頁"/>
+	</div>
+	<? }?>
+	<div class="css_td" align="right" style="width: 90px">
+		<label>
+			<select name="frequency" style="width: 80px;" onchange="javascript:location.href=this.value">
+				<? for ($i = 1; $i <= $totalPages; $i++) {?>
+				<option <? if ($nPages == $i) echo 'selected="selected"';?>value="<? echo $_SERVER['PHP_SELF']?>?page=<? echo $i;?>"><? echo $i;?></option>
+				<? }?>
+			</select>
+		</label>
+	</div>
+	<? if ($nPages < $totalPages) {?>
+	<div class="css_td" align="right" style="width: 90px">
+		<input type ="button" class="css_button" style="width: 75px;" onclick="javascript:location.href='?page=<? echo $nPages + 1;?>'" value="下一頁"/>
+	</div>
+	<div class="css_td" align="right" style="width: 90px">
+		<input type ="button" class="css_button" style="width: 75px;" onclick="javascript:location.href='?page=<? echo $totalPages;?>'" value="最後頁"/>
+	</div>
+	<? } else {?>
+	<div class="css_td" align="right" style="width: 90px">
+		<input type ="button" class="css_static" style="width: 75px;" value="下一頁"/>
+	</div>
+	<div class="css_td" align="right" style="width: 90px">
+		<input type ="button" class="css_static" style="width: 75px;" value="最後頁"/>
+	</div>
+	<? }?>
+</div>
+<br><div class="css_hr"></div><br>
+<div class="css_table" style="border-collapse: collapse; background: #f0ffff;">
+	<div class="css_tr" style="width: 1000px;">
+		<? foreach ($aFields as $aField) {?>
+		<div class="css_table_td" style="width: <? echo $aField['size']?>px;"><? echo $aField['name']?></div>
+		<? }?>
+	</div>
+	<? foreach($aContents as $aContent) {?>
+	<div class="css_table_tr" style="width: 1000px;">
+		<? foreach($aContent as $sContent) {?>
+			<div class="css_table_td"><? echo $sContent?></div>
+		<? }?>
+	</div>
+	<? }?>
+</div>
+<div id="mjs:tip" class="tip" style="position: absolute; left: 0; top: 0; display: none;"></div>

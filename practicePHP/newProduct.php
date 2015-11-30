@@ -23,29 +23,30 @@ $db->exec("set names utf8");
 
 if (isset($_POST) && !empty($_POST)) {
 	$row = $_POST;
-	insertNewCustomer($row);
+	insertNewProduct($row);
 }
 
-function insertNewCustomer($row) {
+function insertNewProduct($row) {
 	global $db;
-	$dbh = $db->prepare("INSERT INTO Contact (name, phone, address, remark) VALUES (?, ?, ?, ?)");
-	$dbh->bindParam(1, $row['customer'], PDO::PARAM_STR);
-	$dbh->bindParam(2, $row['phone'], PDO::PARAM_STR);
-	$dbh->bindParam(3, $row['address'], PDO::PARAM_STR);
-	$dbh->bindParam(4, $row['remark'], PDO::PARAM_STR);
+	$dbh = $db->prepare("INSERT INTO Products (brand, product, type, price, remark) VALUES (?, ?, ?, ?, ?)");
+	$dbh->bindParam(1, $row['brand'], PDO::PARAM_STR);
+	$dbh->bindParam(2, $row['product'], PDO::PARAM_STR);
+	$dbh->bindParam(3, $row['type'], PDO::PARAM_STR);
+	$dbh->bindParam(4, $row['price'], PDO::PARAM_STR);
+	$dbh->bindParam(5, $row['remark'], PDO::PARAM_STR);
 	if ($dbh->execute()) {
 		echo "<script language=javascript>";
 		echo "alert('新增成功');";
-		echo "document.location.href='customerList.php';";
+		echo "document.location.href='products.php';";
 		echo "</script>";
 		exit;
 	} else {
 		echo "<script language=javascript>";
 		echo "alert('新增失敗');";
-		echo "document.location.href='newCustomer.php';";
+		echo "document.location.href='newProduct.php';";
 		echo "</script>";
 		return false;
 	}
 }
 
-include_once '/opt/lampp/htdocs/practicePHP/htmls/newCustomer.html';
+include_once '/opt/lampp/htdocs/practicePHP/htmls/newProduct.html';
